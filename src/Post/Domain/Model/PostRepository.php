@@ -3,11 +3,15 @@
 namespace App\Post\Domain\Model;
 
 
+use App\Post\Application\Query\ViewPostsQuery;
+
 interface PostRepository
 {
-    public function all() : array;
+    public function nextIdentity() : PostId;
 
-    public function ofId(int $id) : Post;
+    public function all(ViewPostsQuery $postsQuery) : array;
+
+    public function ofId(PostId $id) : ?Post;
 
     public function add(Post $post) : void;
 

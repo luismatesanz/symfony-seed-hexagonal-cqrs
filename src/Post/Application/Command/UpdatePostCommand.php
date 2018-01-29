@@ -3,6 +3,7 @@
 namespace App\Post\Application\Command;
 
 use App\Kernel\Application\Command\Command;
+use App\Post\Domain\Model\PostId;
 
 class UpdatePostCommand implements Command
 {
@@ -11,7 +12,7 @@ class UpdatePostCommand implements Command
     private $title;
     private $text;
 
-    public function __construct(int $id, \DateTime $date, string $title, ?string $text)
+    public function __construct(PostId $id, ?\DateTime $date, ?string $title, ?string $text)
     {
         $this->id = $id;
         $this->date = $date;
@@ -19,17 +20,17 @@ class UpdatePostCommand implements Command
         $this->text = $text;
     }
 
-    public function id(): int
+    public function id(): PostId
     {
         return $this->id;
     }
 
-    public function date(): \DateTime
+    public function date(): ?\DateTime
     {
         return $this->date;
     }
 
-    public function title(): string
+    public function title(): ?string
     {
         return $this->title;
     }

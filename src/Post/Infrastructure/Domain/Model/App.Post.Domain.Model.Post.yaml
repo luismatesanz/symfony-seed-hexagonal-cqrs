@@ -1,2 +1,0 @@
-App\Post\Domain\Model\Post:
-    expose: all

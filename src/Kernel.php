@@ -48,9 +48,11 @@ class Kernel extends BaseKernel
         $loader->load($confDir.'/services'.self::CONFIG_EXTS, 'glob');
         $loader->load($confDir.'/services_'.$this->environment.self::CONFIG_EXTS, 'glob');
         $loader->load($this->getProjectDir().'/src/*/Infrastructure/Application/Command/command_handlers'.self::CONFIG_EXTS, 'glob');
-        $loader->load($this->getProjectDir().'/src/*/Infrastructure/Application/Query/services'.self::CONFIG_EXTS, 'glob');
+        $loader->load($this->getProjectDir().'/src/*/Infrastructure/Application/Query/query_handlers'.self::CONFIG_EXTS, 'glob');
 
+        // DOCTRINE
         $this->loadMappingsDoctrine($container);
+        $loader->load($this->getProjectDir().'/src/*/Infrastructure/Persistence/Doctrine/types'.self::CONFIG_EXTS, 'glob');
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
@@ -64,7 +66,7 @@ class Kernel extends BaseKernel
         }
         $routes->import($confDir.'/routes'.self::CONFIG_EXTS, '/', 'glob');
         // ADD API routes
-        $routes->import($this->getProjectDir().'/src/*/Infrastructure/UI/API/Controller/routes.yaml', '/api', 'glob');
+        $routes->import($this->getProjectDir().'/src/*/Infrastructure/UI/API/Controller/routes'.self::CONFIG_EXTS, '/api', 'glob');
     }
 
     private function loadMappingsDoctrine(ContainerBuilder $container)
@@ -75,13 +77,13 @@ class Kernel extends BaseKernel
         $alias = array();
 
         $finder->directories()->in($this->getProjectDir().'/src/');
+        $finder->depth('== 0');
         foreach ($finder as $dir) {
-            if (file_exists($dir->getRealpath().'/Infrastructure/Persistence/Doctrine/Types')) {
+            $entity = $dir->getFilename();
 
-            }
             if (file_exists($dir->getRealpath().'/Infrastructure/Persistence/Doctrine/Mapping')) {
-                $mappings[$dir->getRealpath().'/Infrastructure/Persistence/Doctrine'] = 'App\\'.$dir->getFilename().'\\Domain\\Model';
-                $alias[$dir->getFilename()] = 'App\\'.$dir->getFilename().'\\Domain\\Model';
+                $mappings[$dir->getRealpath().'/Infrastructure/Persistence/Doctrine/Mapping'] = 'App\\'.$entity.'\\Domain\\Model';
+                $alias[$entity] = 'App\\'.$entity.'\\Domain\\Model';
             }
         }
 

@@ -41,9 +41,10 @@ class Post
         return $this->title;
     }
 
-    public function changeTitle(string $title) : void
+    public function changeTitle(string $title) : Post
     {
         $this->title = $title;
+        return $this;
     }
 
     public function text(): ?string

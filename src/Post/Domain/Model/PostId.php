@@ -18,7 +18,7 @@ class PostId
         return $this->id;
     }
 
-    public function equals(WishId $wishId)
+    public function equals(PostId $wishId)
     {
         return $this->id() === $wishId->id();
     }

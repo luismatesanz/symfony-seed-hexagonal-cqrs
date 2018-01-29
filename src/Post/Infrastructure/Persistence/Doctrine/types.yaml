@@ -1,0 +1,4 @@
+doctrine:
+    dbal:
+        types:
+            postId:  App\Post\Infrastructure\Domain\Model\DoctrinePostId

@@ -19,8 +19,8 @@ class AddPostCommandHandler implements CommandHandler
 
     public function handle(Command $command = null)
     {
-        return $this->postRepository->add(
-            new Post($command->date(), $command->title(), $command->text())
+        $this->postRepository->add(
+            new Post($this->postRepository->nextIdentity(), $command->date(), $command->title(), $command->text())
         );
     }
 }
