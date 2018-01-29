@@ -1,0 +1,5 @@
+services:
+    post_view_service:
+        class: App\Post\Application\Query\ViewPostService
+        autowire: true
+        public: true

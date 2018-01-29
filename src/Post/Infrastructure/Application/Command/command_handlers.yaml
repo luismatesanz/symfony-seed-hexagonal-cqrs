@@ -1,0 +1,14 @@
+services:
+    post_add_command_handler:
+        class: App\Post\Application\Command\AddPostCommandHandler
+        autowire: true
+        public: true
+        tags:
+            - { name: command_handler, handles: App\Post\Application\Command\AddPostCommand }
+
+    post_update_command_handler:
+        class: App\Post\Application\Command\UpdatePostCommandHandler
+        autowire: true
+        public: true
+        tags:
+            - { name: command_handler, handles: App\Post\Application\Command\UpdatePostCommand }

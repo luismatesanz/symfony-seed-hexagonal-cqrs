@@ -1,0 +1,20 @@
+App\Post\Domain\Model\Post:
+    type: entity
+    table: null
+    repositoryClass: App\Post\Infrastructure\Domain\Model\DoctrinePostRepository
+    id:
+        postId:
+          column: id
+          type: postId
+    fields:
+        dateCreation:
+            type: datetime
+        date:
+            type: datetime
+        title:
+            type: string
+            length: '150'
+        text:
+            type: text
+            nullable: true
+    lifecycleCallbacks: {  }

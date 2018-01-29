@@ -1,0 +1,17 @@
+fos_rest:
+    param_fetcher_listener: force
+    versioning:
+        enabled: true
+        default_version: v1
+        resolvers:
+            query: false # Query parameter: /users?version=v1
+            custom_header: true # X-Accept-Version header
+            media_type: false # Accept header
+    body_listener:
+        array_normalizer: fos_rest.normalizer.camel_keys
+        decoders:
+            json: fos_rest.decoder.jsontoform
+    format_listener: true
+    routing_loader:
+        default_format: json
+        include_format: false

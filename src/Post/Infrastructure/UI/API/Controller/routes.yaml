@@ -1,0 +1,3 @@
+post:
+    resource: App\Post\Infrastructure\UI\API\Controller\PostController
+    type:     rest

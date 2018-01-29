@@ -1,0 +1,11 @@
+jms_serializer:
+    metadata:
+        cache: file
+        debug: "%kernel.debug%"
+        auto_detection: true
+#        directories:
+#            App:
+#                path: "../src/Post/Infrastructure/Domain/Model"
+    property_naming:
+        separator:
+        lower_case: false
