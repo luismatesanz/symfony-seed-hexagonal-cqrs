@@ -2,7 +2,6 @@
 
 namespace App\Post\Domain\Model;
 
-
 use App\Post\Application\Query\ViewPostsQuery;
 
 interface PostRepository

@@ -40,8 +40,8 @@ class PostController extends FOSRestController
     {
         $limit = ($limit) ? intval($limit) : null;
         $page = ($page) ? intval($page) : null;
-        $dateStart = ($dateStart) ? \DateTime::createFromFormat('Y-m-d',$dateStart) : null;
-        $dateEnd = ($dateEnd) ? \DateTime::createFromFormat('Y-m-d',$dateEnd)  : null;
+        $dateStart = ($dateStart) ? \DateTime::createFromFormat('Y-m-d', $dateStart) : null;
+        $dateEnd = ($dateEnd) ? \DateTime::createFromFormat('Y-m-d', $dateEnd)  : null;
 
         $post = $this->get('posts_view_query_handler')->execute(new ViewPostsQuery($limit, $page, $dateStart, $dateEnd));
 
@@ -59,9 +59,9 @@ class PostController extends FOSRestController
         try {
             $post = $this->get('post_view_query_handler')->execute(new ViewPostQuery(new PostId($id)));
             $view = $this->view($post, Response::HTTP_OK);
-        } catch (PostDoesNotExistException $e ){
+        } catch (PostDoesNotExistException $e) {
             $view = $this->view(array('error' => 'No content'), Response::HTTP_NO_CONTENT);
-        } catch (\InvalidArgumentException $e ) {
+        } catch (\InvalidArgumentException $e) {
             $view = $this->view(array('error' => 'No content'), Response::HTTP_BAD_REQUEST);
         }
 
@@ -155,5 +155,4 @@ class PostController extends FOSRestController
             json_encode('OK')
         );
     }
-
 }

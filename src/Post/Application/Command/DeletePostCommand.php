@@ -3,11 +3,10 @@
 
 namespace App\Post\Application\Command;
 
-
 use App\Kernel\Application\Command\Command;
 use App\Post\Domain\Model\PostId;
 
-class DeletePostCommand  implements Command
+class DeletePostCommand implements Command
 {
     private $id;
 

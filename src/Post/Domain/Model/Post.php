@@ -61,7 +61,7 @@ class Post
     {
         $this->status = "open";
         $today = new \DateTime();
-        if ($this->date() < $today){
+        if ($this->date() < $today) {
             $this->status = "lapsed";
         }
     }

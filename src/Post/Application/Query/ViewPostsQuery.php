@@ -38,6 +38,4 @@ class ViewPostsQuery implements Query
     {
         return $this->page;
     }
-
-
 }
