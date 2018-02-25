@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Post\Application\Query;
 
 use App\Post\Domain\Model\Post;
