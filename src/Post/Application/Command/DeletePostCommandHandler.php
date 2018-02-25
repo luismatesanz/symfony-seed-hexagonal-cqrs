@@ -9,7 +9,7 @@ use App\Kernel\Application\Command\CommandHandler;
 use App\Post\Domain\Model\PostId;
 use App\Post\Domain\Model\PostRepository;
 
-class DeletePostCommandHandler implements CommandHandler
+final class DeletePostCommandHandler implements CommandHandler
 {
     private $postRepository;
 

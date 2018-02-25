@@ -6,7 +6,7 @@ namespace App\Post\Domain\Model;
 
 use Ramsey\Uuid\Uuid;
 
-class PostId
+final class PostId
 {
     private $id;
 

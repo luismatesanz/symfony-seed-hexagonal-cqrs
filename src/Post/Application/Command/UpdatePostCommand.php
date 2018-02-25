@@ -7,7 +7,7 @@ namespace App\Post\Application\Command;
 use App\Kernel\Application\Command\Command;
 use App\Post\Domain\Model\PostId;
 
-class UpdatePostCommand implements Command
+final class UpdatePostCommand implements Command
 {
     private $id;
     private $date;

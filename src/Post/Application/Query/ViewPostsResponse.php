@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Post\Application\Query;
 
-class ViewPostsResponse
+final class ViewPostsResponse
 {
     private $posts;
 

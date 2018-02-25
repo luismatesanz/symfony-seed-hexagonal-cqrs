@@ -10,7 +10,7 @@ use App\Post\Domain\Model\PostDoesNotExistException;
 use App\Post\Domain\Model\PostId;
 use App\Post\Domain\Model\PostRepository;
 
-class UpdatePostCommandHandler implements CommandHandler
+final class UpdatePostCommandHandler implements CommandHandler
 {
     private $postRepository;
 

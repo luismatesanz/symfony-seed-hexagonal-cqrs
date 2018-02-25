@@ -6,7 +6,7 @@ namespace App\Post\Application\Command;
 
 use App\Kernel\Application\Command\Command;
 
-class AddPostCommand implements Command
+final class AddPostCommand implements Command
 {
     private $date;
     private $title;

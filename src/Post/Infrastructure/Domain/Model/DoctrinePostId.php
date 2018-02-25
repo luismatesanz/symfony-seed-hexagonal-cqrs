@@ -6,7 +6,7 @@ namespace App\Post\Infrastructure\Domain\Model;
 
 use App\Kernel\Infrastructure\Domain\Model\DoctrineEntityId;
 
-class DoctrinePostId extends DoctrineEntityId
+final class DoctrinePostId extends DoctrineEntityId
 {
     public function getName()
     {

@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
-class PostController extends FOSRestController
+final class PostController extends FOSRestController
 {
     private $commandBus;
 

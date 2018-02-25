@@ -7,7 +7,7 @@ namespace App\Post\Application\Query;
 use App\Post\Domain\Model\Post;
 use App\Post\Domain\Model\PostId;
 
-class ViewPostResponse
+final class ViewPostResponse
 {
     private $postId;
     private $date;

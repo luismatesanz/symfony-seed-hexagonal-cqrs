@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 
-class DoctrinePostRepository extends EntityRepository implements PostRepository
+final class DoctrinePostRepository extends EntityRepository implements PostRepository
 {
     public function __construct(EntityManagerInterface $em)
     {

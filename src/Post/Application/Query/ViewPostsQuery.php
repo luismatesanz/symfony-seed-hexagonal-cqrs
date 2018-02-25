@@ -6,7 +6,7 @@ namespace App\Post\Application\Query;
 
 use App\Kernel\Application\Query\Query;
 
-class ViewPostsQuery implements Query
+final class ViewPostsQuery implements Query
 {
     private $dateStart;
     private $dateEnd;

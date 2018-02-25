@@ -9,7 +9,7 @@ use App\Kernel\Application\Command\CommandHandler;
 use App\Post\Domain\Model\Post;
 use App\Post\Domain\Model\PostRepository;
 
-class AddPostCommandHandler implements CommandHandler
+final class AddPostCommandHandler implements CommandHandler
 {
     private $postRepository;
 

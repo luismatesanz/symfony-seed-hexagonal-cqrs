@@ -9,7 +9,7 @@ use App\Kernel\Application\Query\QueryHandler;
 use App\Kernel\Application\Query\Response;
 use App\Post\Domain\Model\PostRepository;
 
-class ViewPostsQueryHandler implements QueryHandler
+final class ViewPostsQueryHandler implements QueryHandler
 {
     private $postRepository;
 

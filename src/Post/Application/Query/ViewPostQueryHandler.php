@@ -11,7 +11,7 @@ use App\Post\Domain\Model\PostDoesNotExistException;
 use App\Post\Domain\Model\PostId;
 use App\Post\Domain\Model\PostRepository;
 
-class ViewPostQueryHandler implements QueryHandler
+final class ViewPostQueryHandler implements QueryHandler
 {
     private $postRepository;
 
