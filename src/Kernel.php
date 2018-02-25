@@ -47,8 +47,8 @@ class Kernel extends BaseKernel
         }
         $loader->load($confDir.'/services'.self::CONFIG_EXTS, 'glob');
         $loader->load($confDir.'/services_'.$this->environment.self::CONFIG_EXTS, 'glob');
-        $loader->load($this->getProjectDir().'/src/*/Infrastructure/Application/Command/command_handlers'.self::CONFIG_EXTS, 'glob');
-        $loader->load($this->getProjectDir().'/src/*/Infrastructure/Application/Query/query_handlers'.self::CONFIG_EXTS, 'glob');
+        $loader->load($this->getProjectDir().'/src/*/Infrastructure/Application/command_handlers'.self::CONFIG_EXTS, 'glob');
+        $loader->load($this->getProjectDir().'/src/*/Infrastructure/Application/query_handlers'.self::CONFIG_EXTS, 'glob');
 
         // DOCTRINE
         $this->loadMappingsDoctrine($container);

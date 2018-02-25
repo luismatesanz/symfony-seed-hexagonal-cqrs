@@ -18,20 +18,20 @@ class ViewPostQueryHandler implements QueryHandler
         $this->postRepository = $postRepository;
     }
 
-    public function execute(Query $request = null) : Post
+    public function execute(Query $request = null) : ViewPostResponse
     {
-        $idPost = $request->idPost();
+        $postId = $request->postId();
 
-        $post = $this->postRepository->ofId($idPost);
+        $post = $this->postRepository->ofId($postId);
 
         if (!$post) {
             throw new PostDoesNotExistException();
         }
 
-        /*if (!$post->id()->equals(new PostId($idPost))) {
+        /*if (!$post->id()->equals(new PostId($postId))) {
             throw new \InvalidArgumentException('Post is not authorized to view this wish');
         }*/
 
-        return $post;
+        return new ViewPostResponse($post);
     }
 }

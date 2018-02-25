@@ -2,7 +2,6 @@
 
 namespace App\Post\Infrastructure\Domain\Model;
 
-use App\Post\Application\Query\ViewPostsQuery;
 use App\Post\Domain\Model\Post;
 use App\Post\Domain\Model\PostId;
 use App\Post\Domain\Model\PostRepository;
@@ -22,7 +21,7 @@ class DoctrinePostRepository extends EntityRepository implements PostRepository
         return new PostId();
     }
 
-    public function all(ViewPostsQuery $postsQuery) : array
+    public function all(?int $limit = null, ?int $page = null, ?\DateTime $dateStart = null, ?\DateTime $dateEnd = null) : array
     {
         $filterParameters = [];
 
@@ -32,22 +31,22 @@ class DoctrinePostRepository extends EntityRepository implements PostRepository
         $query->from('Post:Post', 'p');
         $query->where('1=1');
 
-        if ($postsQuery->dateStart()) {
+        if ($dateStart) {
             $query->andwhere('p.date >= :dateStart');
-            $filterParameters = array_merge($filterParameters, array('dateStart' => $postsQuery->dateStart()->format('Y-m-d')));
+            $filterParameters = array_merge($filterParameters, array('dateStart' => $dateStart->format('Y-m-d')));
         }
 
-        if ($postsQuery->dateEnd()) {
+        if ($dateEnd) {
             $query->andwhere('p.date <= :dateEnd');
-            $filterParameters = array_merge($filterParameters, array('dateEnd' => $postsQuery->dateEnd()->format('Y-m-d')));
+            $filterParameters = array_merge($filterParameters, array('dateEnd' => $dateEnd->format('Y-m-d')));
         }
 
-        if ($postsQuery->page()) {
-            $query->setFirstResult(($postsQuery->page()-1)*$postsQuery->limit());
+        if ($page && $limit) {
+            $query->setFirstResult(($page-1)*$limit);
         }
 
-        if ($postsQuery->limit()) {
-            $query->setMaxResults($postsQuery->limit());
+        if ($limit) {
+            $query->setMaxResults($limit);
         }
 
         $query->orderBy('p.date');

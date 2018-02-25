@@ -4,6 +4,7 @@ namespace App\Post\Application\Query;
 
 use App\Kernel\Application\Query\Query;
 use App\Kernel\Application\Query\QueryHandler;
+use App\Kernel\Application\Query\Response;
 use App\Post\Domain\Model\PostRepository;
 
 class ViewPostsQueryHandler implements QueryHandler
@@ -15,8 +16,14 @@ class ViewPostsQueryHandler implements QueryHandler
         $this->postRepository = $postRepository;
     }
 
-    public function execute(Query $request = null)
+    public function execute(Query $request = null) : ViewPostsResponse
     {
-        return $this->postRepository->all($request);
+        $posts = $this->postRepository->all(
+            $request->limit(),
+            $request->page(),
+            $request->dateStart(),
+            $request->dateEnd()
+            );
+        return new ViewPostsResponse($posts);
     }
 }

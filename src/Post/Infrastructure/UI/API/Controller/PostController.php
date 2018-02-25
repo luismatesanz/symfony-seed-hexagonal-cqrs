@@ -35,6 +35,14 @@ class PostController extends FOSRestController
      * @Rest\QueryParam(name="dateStart", description="Filter date start")
      * @Rest\QueryParam(name="dateEnd", description="Filter date end")
      *
+     * @SWG\Tag(name="post")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns all posts",
+     *     @SWG\Schema(
+     *         @Model(type=App\Post\Application\Query\ViewPostsResponse::class)
+     *     )
+     * )
      */
     public function getPostsAction($limit, $page, $dateStart, $dateEnd): Response
     {
@@ -53,6 +61,15 @@ class PostController extends FOSRestController
      * GET post
      *
      * @Rest\View()
+     *
+     * @SWG\Tag(name="post")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns post",
+     *     @SWG\Schema(
+     *         @Model(type=App\Post\Application\Query\ViewPostResponse::class)
+     *     )
+     * )
      */
     public function getPostAction(string $id): Response
     {
@@ -73,10 +90,13 @@ class PostController extends FOSRestController
      * Add post.
      *
      * @Rest\View()
+     *
+     * @SWG\Tag(name="post")
      * @SWG\Parameter(
-     *     name="form",
+     *     name="",
      *     in="body",
-     *     description="Bla Bla Bla",
+     *     description="Add Post",
+     *     type="object",
      *     @Model(type=App\Post\Application\Command\AddPostCommand::class)
      * ),
      * @SWG\Response(
@@ -103,10 +123,13 @@ class PostController extends FOSRestController
      * Update post.
      *
      * @Rest\View()
+     *
+     * @SWG\Tag(name="post")
      * @SWG\Parameter(
-     *     name="form",
+     *     name="",
      *     in="body",
-     *     description="Bla Bla Bla",
+     *     description="Update Post",
+     *     type="object",
      *     @Model(type=App\Post\Application\Command\UpdatePostCommand::class)
      * ),
      * @SWG\Response(
@@ -134,11 +157,16 @@ class PostController extends FOSRestController
      * Delete post.
      *
      * @Rest\View()
+     *
+     * @SWG\Tag(name="post")
      * @SWG\Parameter(
-     *     name="form",
+     *     name="",
      *     in="body",
-     *     description="Bla Bla Bla",
-     *     @Model(type=App\Post\Application\Command\UpdatePostCommand::class)
+     *     description="Delete Post",
+     *     type="object",
+     *     @Model(
+     *          type=App\Post\Application\Command\DeletePostCommand::class
+     *     )
      * ),
      * @SWG\Response(
      *     response=200,

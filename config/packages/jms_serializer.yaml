@@ -1,11 +1,16 @@
 jms_serializer:
-    metadata:
-        cache: file
-        debug: "%kernel.debug%"
-        auto_detection: true
-#        directories:
-#            App:
-#                path: "../src/Post/Infrastructure/Domain/Model"
     property_naming:
         separator:
         lower_case: false
+        enable_cache: true
+
+    metadata:
+#        cache: file
+#        debug: "%kernel.debug%"
+#        file_cache:
+#            dir: "%kernel.cache_dir%/serializer"
+
+        directories:
+            app:
+                namespace_prefix: ""
+                path: "%kernel.root_dir%/Post/Infrastructure/Application/Serializer/"

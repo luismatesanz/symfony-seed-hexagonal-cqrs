@@ -7,15 +7,15 @@ use App\Post\Domain\Model\PostId;
 
 class ViewPostQuery implements Query
 {
-    private $idPost;
+    private $postId;
 
-    public function __construct(PostId $idPost)
+    public function __construct(PostId $postId)
     {
-        $this->idPost = $idPost;
+        $this->postId = $postId;
     }
 
-    public function idPost() : PostId
+    public function postId() : PostId
     {
-        return $this->idPost;
+        return $this->postId;
     }
 }

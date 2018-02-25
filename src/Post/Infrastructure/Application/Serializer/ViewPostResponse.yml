@@ -1,0 +1,2 @@
+App\Post\Application\Command\ViewPostResponse:
+  expose: ALL
