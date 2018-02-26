@@ -10,8 +10,8 @@ final class ViewPostsResponse
 
     public function __construct(?array $posts = null)
     {
-        foreach ($posts as $post) {
-            $this->posts[] = new ViewPostResponse($post);
+        foreach ($posts as $key => $post) {
+            $this->posts[$key] = new ViewPostResponse($post);
         }
     }
 
