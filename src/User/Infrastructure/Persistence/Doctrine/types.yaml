@@ -1,0 +1,4 @@
+doctrine:
+    dbal:
+        types:
+            UserId:  App\User\Infrastructure\Domain\Model\DoctrineUserId

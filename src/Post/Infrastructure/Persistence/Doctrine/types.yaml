@@ -1,4 +1,4 @@
 doctrine:
     dbal:
         types:
-            postId:  App\Post\Infrastructure\Domain\Model\DoctrinePostId
+            PostId:  App\Post\Infrastructure\Domain\Model\DoctrinePostId

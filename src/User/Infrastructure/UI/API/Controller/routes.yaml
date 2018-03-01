@@ -1,0 +1,3 @@
+user:
+    resource: App\User\Infrastructure\UI\API\Controller\UserController
+    type:     rest

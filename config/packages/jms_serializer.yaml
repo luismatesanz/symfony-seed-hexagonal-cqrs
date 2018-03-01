@@ -5,12 +5,12 @@ jms_serializer:
         enable_cache: true
 
     metadata:
-#        cache: file
-#        debug: "%kernel.debug%"
-#        file_cache:
-#            dir: "%kernel.cache_dir%/serializer"
+        cache: file
+        debug: "%kernel.debug%"
+        file_cache:
+            dir: "%kernel.cache_dir%/serializer"
 
-        directories:
-            app:
-                namespace_prefix: ""
-                path: "%kernel.root_dir%/Post/Infrastructure/Application/Serializer/"
+#        directories:
+#            app:
+#                namespace_prefix: ""
+#                path: "%kernel.root_dir%/Post/Infrastructure/Application/Serializer/"

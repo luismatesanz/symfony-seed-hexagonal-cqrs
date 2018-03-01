@@ -1,0 +1,22 @@
+App\User\Domain\Model\User:
+    type: entity
+    table: null
+    repositoryClass: App\User\Infrastructure\Domain\Model\DoctrinePostRepository
+    id:
+        userId:
+          column: id
+          type: UserId
+    fields:
+        dateCreation:
+            type: datetime
+        username:
+            type: string
+            length: '255'
+        email:
+            type: string
+            length: '255'
+        enabled:
+            type: boolean
+        password:
+            type: string
+    lifecycleCallbacks: {  }

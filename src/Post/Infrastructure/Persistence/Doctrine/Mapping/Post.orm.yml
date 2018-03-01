@@ -5,7 +5,7 @@ App\Post\Domain\Model\Post:
     id:
         postId:
           column: id
-          type: postId
+          type: PostId
     fields:
         dateCreation:
             type: datetime

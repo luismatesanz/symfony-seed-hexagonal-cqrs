@@ -1,2 +1,0 @@
-App\Post\Application\Command\AddPostCommand:
-  expose: ALL
