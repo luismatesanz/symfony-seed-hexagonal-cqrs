@@ -4,12 +4,12 @@ namespace App\Post\Infrastructure\UI\API\Controller;
 
 use App\Kernel\Application\Command\CommandBus;
 use App\Post\Application\Command\AddPostCommand;
+use App\Post\Application\Command\Aggregate\PostCommentCommand;
 use App\Post\Application\Command\DeletePostCommand;
 use App\Post\Application\Command\UpdatePostCommand;
 use App\Post\Application\Query\ViewPostQuery;
 use App\Post\Application\Query\ViewPostsQuery;
-use App\Post\Domain\Model\PostDoesNotExistException;
-use App\Post\Domain\Model\PostId;
+use Doctrine\Common\Collections\ArrayCollection;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,9 +74,9 @@ final class PostController extends FOSRestController
     public function getPostAction(string $id): Response
     {
         try {
-            $post = $this->get('post_view_query_handler')->execute(new ViewPostQuery(new PostId($id)));
+            $post = $this->get('post_view_query_handler')->execute(new ViewPostQuery($id));
             $view = $this->view($post, Response::HTTP_OK);
-        } catch (PostDoesNotExistException $e) {
+        } catch (\Exception $e) {
             $view = $this->view(array('error' => 'No content'), Response::HTTP_NO_CONTENT);
         } catch (\InvalidArgumentException $e) {
             $view = $this->view(array('error' => 'No content'), Response::HTTP_BAD_REQUEST);
@@ -142,9 +142,24 @@ final class PostController extends FOSRestController
         $date = ($request->get('date')) ? \DateTime::createFromFormat('Y-m-d', $request->get('date')) : null;
         $title = ($request->get('title')) ? $request->get('title'): null;
         $text = ($request->get('text')) ? $request->get('text') : null;
+        $commentsRequest = ($request->get('comments')) ? $request->get('comments') : array();
+
+        if (!$title) {
+            return new Response(
+                json_encode('Title required')
+            );
+        }
+
+        $comments = new ArrayCollection();
+        foreach ($commentsRequest as $comment) {
+            $commentId = (array_key_exists('id', $comment)) ? $comment['id'] : null;
+            $commentUserId = (array_key_exists('userId', $comment)) ? $comment['userId'] : null;
+            $commentText = (array_key_exists('text', $comment)) ? $comment['text'] : null;
+            $comments->add(new PostCommentCommand($commentId, $commentUserId, $commentText));
+        }
 
         $this->commandBus->execute(
-            new UpdatePostCommand(new PostId($id), $date, $title, $text)
+            new UpdatePostCommand($id, $date, $title, $text, $comments)
         );
 
         return new Response(
@@ -176,7 +191,7 @@ final class PostController extends FOSRestController
     public function deletePostsAction(string $id): Response
     {
         $this->commandBus->execute(
-            new DeletePostCommand(new PostId($id))
+            new DeletePostCommand($id)
         );
 
         return new Response(

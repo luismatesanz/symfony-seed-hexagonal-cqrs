@@ -70,18 +70,18 @@ final class DoctrineUserRepository extends EntityRepository implements UserRepos
     public function add(User $user) : void
     {
         $this->getEntityManager()->persist($user);
-        $this->getEntityManager()->flush($user);
+        $this->getEntityManager()->flush();
     }
 
     public function update(User $user) : void
     {
         $this->getEntityManager()->persist($user);
-        $this->getEntityManager()->flush($user);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(User $user) : void
     {
         $this->getEntityManager()->remove($user);
-        $this->getEntityManager()->flush($user);
+        $this->getEntityManager()->flush();
     }
 }

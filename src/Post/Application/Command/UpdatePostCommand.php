@@ -6,25 +6,28 @@ namespace App\Post\Application\Command;
 
 use App\Kernel\Application\Command\Command;
 use App\Post\Domain\Model\PostId;
+use Doctrine\Common\Collections\ArrayCollection;
 
 final class UpdatePostCommand implements Command
 {
-    private $id;
+    private $postId;
     private $date;
     private $title;
     private $text;
+    private $comments;
 
-    public function __construct(PostId $id, ?\DateTime $date, ?string $title, ?string $text)
+    public function __construct(string $id, ?\DateTime $date, ?string $title, ?string $text, ?ArrayCollection $comments)
     {
-        $this->id = $id;
+        $this->postId = new PostId($id);
         $this->date = $date;
         $this->title = $title;
         $this->text = $text;
+        $this->comments = $comments;
     }
 
-    public function id(): PostId
+    public function postId(): PostId
     {
-        return $this->id;
+        return $this->postId;
     }
 
     public function date(): ?\DateTime
@@ -40,5 +43,10 @@ final class UpdatePostCommand implements Command
     public function text(): ?string
     {
         return $this->text;
+    }
+
+    public function comments(): ?ArrayCollection
+    {
+        return $this->comments;
     }
 }

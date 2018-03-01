@@ -9,15 +9,15 @@ use App\User\Domain\Model\UserId;
 
 final class DeleteUserCommand implements Command
 {
-    private $id;
+    private $userId;
 
-    public function __construct(UserId $id)
+    public function __construct($id)
     {
-        $this->id = $id;
+        $this->userId = new UserId($id);
     }
 
-    public function id() : UserId
+    public function userId() : UserId
     {
-        return $this->id;
+        return $this->userId;
     }
 }

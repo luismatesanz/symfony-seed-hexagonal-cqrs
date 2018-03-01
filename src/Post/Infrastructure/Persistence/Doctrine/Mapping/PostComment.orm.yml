@@ -1,0 +1,27 @@
+App\Post\Domain\Model\PostComment:
+    type: entity
+    table: null
+    id:
+        postCommentId:
+          column: id
+          type: PostCommentId
+    fields:
+        dateCreation:
+            type: datetime
+        text:
+            type: text
+    manyToOne:
+        post:
+            targetEntity: App\Post\Domain\Model\Post
+            inversedBy: comments
+            joinColumns:
+                post:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+        user:
+            targetEntity: App\User\Domain\Model\User
+            joinColumns:
+                user:
+                    referencedColumnName: id
+                    onDelete: SET NULL
+    lifecycleCallbacks: {  }

@@ -9,15 +9,15 @@ use App\Post\Domain\Model\PostId;
 
 final class DeletePostCommand implements Command
 {
-    private $id;
+    private $postId;
 
-    public function __construct(PostId $id)
+    public function __construct(string $id)
     {
-        $this->id = $id;
+        $this->postId = new PostId($id);
     }
 
-    public function id() : PostId
+    public function postId() : PostId
     {
-        return $this->id;
+        return $this->postId;
     }
 }

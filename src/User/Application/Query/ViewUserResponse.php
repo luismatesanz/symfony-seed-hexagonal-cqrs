@@ -16,7 +16,7 @@ final class ViewUserResponse
 
     public function __construct(User $user)
     {
-        $this->userId = $user->userId()->id();
+        $this->userId = $user->id()->id();
         $this->dateCreation = $user->dateCreation();
         $this->username = $user->username();
         $this->email = $user->email();

@@ -23,7 +23,7 @@ class User
         $this->password = password_hash($password, PASSWORD_BCRYPT);
     }
 
-    public function userId(): UserId
+    public function id(): UserId
     {
         return $this->userId;
     }

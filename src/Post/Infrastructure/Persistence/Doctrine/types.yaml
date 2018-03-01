@@ -2,3 +2,4 @@ doctrine:
     dbal:
         types:
             PostId:  App\Post\Infrastructure\Domain\Model\DoctrinePostId
+            PostCommentId:  App\Post\Infrastructure\Domain\Model\DoctrinePostCommentId

@@ -9,22 +9,22 @@ use App\User\Domain\Model\UserId;
 
 final class UpdateUserCommand implements Command
 {
-    private $id;
+    private $userId;
     private $username;
     private $email;
     private $enabled;
 
-    public function __construct(UserId $id, string $username, string $email, bool $enabled)
+    public function __construct(string $id, string $username, string $email, bool $enabled)
     {
-        $this->id = $id;
+        $this->userId = new UserId($id);
         $this->username = $username;
         $this->email = $email;
         $this->enabled = $enabled;
     }
 
-    public function id(): UserId
+    public function userId(): UserId
     {
-        return $this->id;
+        return $this->userId;
     }
 
     public function username(): string

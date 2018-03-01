@@ -17,4 +17,11 @@ App\Post\Domain\Model\Post:
         text:
             type: text
             nullable: true
+    oneToMany:
+        comments:
+            targetEntity: App\Post\Domain\Model\PostComment
+            cascade: ["persist", "remove"]
+            orphanRemoval: true
+            fetch: EXTRA_LAZY
+            mappedBy: post
     lifecycleCallbacks: {  }

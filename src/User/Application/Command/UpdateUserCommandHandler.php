@@ -20,7 +20,7 @@ final class UpdateUserCommandHandler implements CommandHandler
 
     public function handle(Command $command = null)
     {
-        $user = $this->userRepository->ofId($command->id());
+        $user = $this->userRepository->ofId($command->userId());
 
         if (!$user) {
             throw new UserDoesNotExistException();

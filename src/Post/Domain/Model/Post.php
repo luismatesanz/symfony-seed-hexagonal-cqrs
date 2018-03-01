@@ -4,6 +4,9 @@ declare(strict_types = 1);
 
 namespace App\Post\Domain\Model;
 
+use App\User\Domain\Model\User;
+use Doctrine\Common\Collections\ArrayCollection;
+
 class Post
 {
     private $postId;
@@ -12,6 +15,7 @@ class Post
     private $title;
     private $text;
     private $status;
+    private $comments;
 
     public function __construct(PostId $postId, \DateTime $date, string $title, ?string $text)
     {
@@ -21,6 +25,7 @@ class Post
         $this->status = "open";
         $this->title = $title;
         $this->text = $text;
+        $this->comments = new ArrayCollection();
     }
 
     public function id()
@@ -59,12 +64,47 @@ class Post
         return $this->status;
     }
 
+    public function comments()
+    {
+        return $this->comments;
+    }
+
     public function calculateStatus() : void
     {
         $this->status = "open";
         $today = new \DateTime();
         if ($this->date() < $today) {
             $this->status = "lapsed";
+        }
+    }
+
+    public function addComment(User $user, $text)
+    {
+        $this->comments[] = new PostComment(
+            new PostCommentId(),
+            $this,
+            $user,
+            $text
+        );
+    }
+
+    public function updateComment(PostCommentId $postCommentId, $text)
+    {
+        foreach ($this->comments as $k => $comment) {
+            if ($comment->postCommentId()->equals($postCommentId)) {
+                $comment->changeText($text);
+                break;
+            }
+        }
+    }
+
+    public function deleteComment(PostCommentId $postCommentId)
+    {
+        foreach ($this->comments as $k => $comment) {
+            if ($comment->postCommentId()->equals($postCommentId)) {
+                unset($this->comments[$k]);
+                break;
+            }
         }
     }
 }

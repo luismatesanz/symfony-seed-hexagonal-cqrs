@@ -8,9 +8,6 @@ use App\User\Application\Command\DeleteUserCommand;
 use App\User\Application\Command\UpdateUserCommand;
 use App\User\Application\Query\ViewUserQuery;
 use App\User\Application\Query\ViewUsersQuery;
-use App\User\Domain\Model\UserAlreadyExistException;
-use App\User\Domain\Model\UserDoesNotExistException;
-use App\User\Domain\Model\UserId;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,9 +68,9 @@ final class UserController extends FOSRestController
     public function getUserAction(string $id): Response
     {
         try {
-            $user = $this->get('user_view_query_handler')->execute(new ViewUserQuery(new UserId($id)));
+            $user = $this->get('user_view_query_handler')->execute(new ViewUserQuery($id));
             $view = $this->view($user, Response::HTTP_OK);
-        } catch (UserDoesNotExistException $e) {
+        } catch (\Exception $e) {
             $view = $this->view(array('error' => 'No content'), Response::HTTP_NO_CONTENT);
         } catch (\InvalidArgumentException $e) {
             $view = $this->view(array('error' => 'No content'), Response::HTTP_BAD_REQUEST);
@@ -126,7 +123,7 @@ final class UserController extends FOSRestController
             $this->commandBus->execute(
                 new AddUserCommand($username, $email, $password)
             );
-        } catch (UserAlreadyExistException $e) {
+        } catch (\Exception $e) {
             return new Response(
                 json_encode($e->getMessage())
             );
@@ -177,7 +174,7 @@ final class UserController extends FOSRestController
         }
 
         $this->commandBus->execute(
-            new UpdateUserCommand(new UserId($id), $username, $email, $enabled)
+            new UpdateUserCommand($id, $username, $email, $enabled)
         );
 
         return new Response(
@@ -209,7 +206,7 @@ final class UserController extends FOSRestController
     public function deleteUsersAction(string $id): Response
     {
         $this->commandBus->execute(
-            new DeleteUserCommand(new UserId($id))
+            new DeleteUserCommand($id)
         );
 
         return new Response(

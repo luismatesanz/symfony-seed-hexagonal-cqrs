@@ -11,9 +11,9 @@ final class ViewUserQuery implements Query
 {
     private $userId;
 
-    public function __construct(UserId $userId)
+    public function __construct(string $userId)
     {
-        $this->userId = $userId;
+        $this->userId = new UserId($userId);
     }
 
     public function userId() : UserId

@@ -4,27 +4,31 @@ declare(strict_types = 1);
 
 namespace App\Post\Application\Query;
 
+use App\Post\Application\Query\Aggregate\ViewPostCommentResponse;
 use App\Post\Domain\Model\Post;
-use App\Post\Domain\Model\PostId;
 
 final class ViewPostResponse
 {
-    private $postId;
+    private $id;
     private $date;
     private $title;
     private $text;
+    private $comments;
 
     public function __construct(Post $post)
     {
-        $this->postId = $post->id()->id();
+        $this->id = $post->id()->id();
         $this->date = $post->date();
         $this->title = $post->title();
         $this->text = $post->text();
+        foreach ($post->comments() as $key => $comment) {
+            $this->comments[$key] = new ViewPostCommentResponse($comment);
+        }
     }
 
-    public function postId(): string
+    public function id(): string
     {
-        return $this->postId;
+        return $this->id;
     }
 
     public function date(): \DateTime
@@ -40,5 +44,10 @@ final class ViewPostResponse
     public function text(): string
     {
         return $this->text;
+    }
+
+    public function comments()
+    {
+        return $this->comments;
     }
 }

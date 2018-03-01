@@ -11,9 +11,9 @@ final class ViewPostQuery implements Query
 {
     private $postId;
 
-    public function __construct(PostId $postId)
+    public function __construct(string $postId)
     {
-        $this->postId = $postId;
+        $this->postId = new PostId($postId);
     }
 
     public function postId() : PostId
