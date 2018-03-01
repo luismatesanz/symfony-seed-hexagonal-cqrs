@@ -11,6 +11,8 @@ interface UserRepository
 
     public function ofId(UserId $id) : ?User;
 
+    public function of(?string $username, ?string $email) : ?User;
+
     public function add(User $post) : void;
 
     public function update(User $post) : void;

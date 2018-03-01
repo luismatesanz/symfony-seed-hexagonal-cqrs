@@ -53,6 +53,20 @@ final class DoctrineUserRepository extends EntityRepository implements UserRepos
         return $this->find($id);
     }
 
+    public function of(?string $username, ?string $email) : ?User
+    {
+        $arrayQuery = array();
+        if ($username) {
+            $arrayQuery["username"] = $username;
+        }
+
+        if ($email) {
+            $arrayQuery["email"] = $email;
+        }
+
+        return $this->findOneBy($arrayQuery);
+    }
+
     public function add(User $user) : void
     {
         $this->getEntityManager()->persist($user);

@@ -12,9 +12,11 @@ App\User\Domain\Model\User:
         username:
             type: string
             length: '255'
+            unique: true
         email:
             type: string
             length: '255'
+            unique: true
         enabled:
             type: boolean
         password:

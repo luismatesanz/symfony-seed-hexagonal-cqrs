@@ -8,6 +8,7 @@ use App\User\Application\Command\DeleteUserCommand;
 use App\User\Application\Command\UpdateUserCommand;
 use App\User\Application\Query\ViewUserQuery;
 use App\User\Application\Query\ViewUsersQuery;
+use App\User\Domain\Model\UserAlreadyExistException;
 use App\User\Domain\Model\UserDoesNotExistException;
 use App\User\Domain\Model\UserId;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -121,9 +122,15 @@ final class UserController extends FOSRestController
             );
         }
 
-        $this->commandBus->execute(
-            new AddUserCommand($username, $email, $password)
-        );
+        try {
+            $this->commandBus->execute(
+                new AddUserCommand($username, $email, $password)
+            );
+        } catch (UserAlreadyExistException $e) {
+            return new Response(
+                json_encode($e->getMessage())
+            );
+        }
 
         return new Response(
             json_encode('OK')
