@@ -47,7 +47,7 @@ final class UserController extends FOSRestController
 
         $user = $this->get('users_view_query_handler')->execute(new ViewUsersQuery($limit, $page));
 
-        $view = $this->view($user, Response::HTTP_OK);
+        $view = $this->view($user->users(), Response::HTTP_OK);
         return $this->handleView($view);
     }
 

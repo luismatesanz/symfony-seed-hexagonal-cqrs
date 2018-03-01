@@ -53,7 +53,7 @@ final class PostController extends FOSRestController
 
         $post = $this->get('posts_view_query_handler')->execute(new ViewPostsQuery($limit, $page, $dateStart, $dateEnd));
 
-        $view = $this->view($post, Response::HTTP_OK);
+        $view = $this->view($post->posts(), Response::HTTP_OK);
         return $this->handleView($view);
     }
 
