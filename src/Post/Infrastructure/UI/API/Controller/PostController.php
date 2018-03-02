@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Post\Infrastructure\UI\API\Controller;
 
 use App\Kernel\Application\Command\CommandBus;
@@ -9,6 +11,8 @@ use App\Post\Application\Command\DeletePostCommand;
 use App\Post\Application\Command\UpdatePostCommand;
 use App\Post\Application\Query\ViewPostQuery;
 use App\Post\Application\Query\ViewPostsQuery;
+use App\Post\Infrastructure\UI\API\Form\PostAddType;
+use App\Post\Infrastructure\UI\API\Form\PostUpdateType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
@@ -97,7 +101,7 @@ final class PostController extends FOSRestController
      *     in="body",
      *     description="Add Post",
      *     type="object",
-     *     @Model(type=App\Post\Application\Command\AddPostCommand::class)
+     *     @Model(type=App\Post\Infrastructure\UI\API\Form\PostAddType::class)
      * ),
      * @SWG\Response(
      *     response=200,
@@ -106,13 +110,19 @@ final class PostController extends FOSRestController
      */
     public function postPostAction(Request $request): Response
     {
-        $date = \DateTime::createFromFormat('Y-m-d', $request->get('date'));
-        $title = $request->get('title');
-        $text = $request->get('text');
+        $form = $this->createForm(PostAddType::class);
+        $form->handleRequest($request);
 
-        $this->commandBus->execute(
-            new AddPostCommand($date, $title, $text)
-        );
+        if ($form->isValid()) {
+            $data = $form->getData();
+            $this->commandBus->execute(
+                new AddPostCommand($data['date'], $data['title'], $data['text'])
+            );
+        } else {
+            return new Response(
+                json_encode('Fields required: '.$form->getErrors())
+            );
+        }
 
         return new Response(
             json_encode('OK')
@@ -130,7 +140,7 @@ final class PostController extends FOSRestController
      *     in="body",
      *     description="Update Post",
      *     type="object",
-     *     @Model(type=App\Post\Application\Command\UpdatePostCommand::class)
+     *     @Model(type=App\Post\Infrastructure\UI\API\Form\PostUpdateType::class)
      * ),
      * @SWG\Response(
      *     response=200,
@@ -139,7 +149,7 @@ final class PostController extends FOSRestController
      */
     public function putPostsAction(Request $request, string $id): Response
     {
-        $date = ($request->get('date')) ? \DateTime::createFromFormat('Y-m-d', $request->get('date')) : null;
+        /*$date = ($request->get('date')) ? \DateTime::createFromFormat('Y-m-d', $request->get('date')) : null;
         $title = ($request->get('title')) ? $request->get('title'): null;
         $text = ($request->get('text')) ? $request->get('text') : null;
         $commentsRequest = ($request->get('comments')) ? $request->get('comments') : array();
@@ -156,11 +166,21 @@ final class PostController extends FOSRestController
             $commentUserId = (array_key_exists('userId', $comment)) ? $comment['userId'] : null;
             $commentText = (array_key_exists('text', $comment)) ? $comment['text'] : null;
             $comments->add(new PostCommentCommand($commentId, $commentUserId, $commentText));
+        }*/
+        $form = $this->createForm(PostUpdateType::class);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $data = $form->getData();
+            $this->commandBus->execute(
+                new UpdatePostCommand($id, $data['date'], $data['title'], $data['text'], $data['comments'])
+            );
+        } else {
+            return new Response(
+                json_encode('Fields required: '.$form->getErrors())
+            );
         }
 
-        $this->commandBus->execute(
-            new UpdatePostCommand($id, $date, $title, $text, $comments)
-        );
 
         return new Response(
             json_encode('OK')
