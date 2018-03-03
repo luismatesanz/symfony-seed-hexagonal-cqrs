@@ -6,14 +6,12 @@ namespace App\Post\Infrastructure\UI\API\Controller;
 
 use App\Kernel\Application\Command\CommandBus;
 use App\Post\Application\Command\AddPostCommand;
-use App\Post\Application\Command\Aggregate\PostCommentCommand;
 use App\Post\Application\Command\DeletePostCommand;
 use App\Post\Application\Command\UpdatePostCommand;
 use App\Post\Application\Query\ViewPostQuery;
 use App\Post\Application\Query\ViewPostsQuery;
 use App\Post\Infrastructure\UI\API\Form\PostAddType;
 use App\Post\Infrastructure\UI\API\Form\PostUpdateType;
-use Doctrine\Common\Collections\ArrayCollection;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
@@ -110,17 +108,19 @@ final class PostController extends FOSRestController
      */
     public function postPostAction(Request $request): Response
     {
-        $form = $this->createForm(PostAddType::class);
+        $form = $this->createForm(PostAddType::class, null, ['method' => 'POST']);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $data = $form->getData();
-            $this->commandBus->execute(
-                new AddPostCommand($data['date'], $data['title'], $data['text'])
-            );
+        if ($form->isSubmitted() && $form->isValid()) {
+            $addPostCommand = $form->getData();
+            $this->commandBus->execute($addPostCommand);
         } else {
             return new Response(
-                json_encode('Fields required: '.$form->getErrors())
+                json_encode(
+                    array(
+                        'error' => $form->getErrors()
+                    )
+                )
             );
         }
 
@@ -149,35 +149,19 @@ final class PostController extends FOSRestController
      */
     public function putPostsAction(Request $request, string $id): Response
     {
-        /*$date = ($request->get('date')) ? \DateTime::createFromFormat('Y-m-d', $request->get('date')) : null;
-        $title = ($request->get('title')) ? $request->get('title'): null;
-        $text = ($request->get('text')) ? $request->get('text') : null;
-        $commentsRequest = ($request->get('comments')) ? $request->get('comments') : array();
-
-        if (!$title) {
-            return new Response(
-                json_encode('Title required')
-            );
-        }
-
-        $comments = new ArrayCollection();
-        foreach ($commentsRequest as $comment) {
-            $commentId = (array_key_exists('id', $comment)) ? $comment['id'] : null;
-            $commentUserId = (array_key_exists('userId', $comment)) ? $comment['userId'] : null;
-            $commentText = (array_key_exists('text', $comment)) ? $comment['text'] : null;
-            $comments->add(new PostCommentCommand($commentId, $commentUserId, $commentText));
-        }*/
-        $form = $this->createForm(PostUpdateType::class);
+        $form = $this->createForm(PostUpdateType::class, null, ['method' => 'PUT', 'id' => $id]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $data = $form->getData();
-            $this->commandBus->execute(
-                new UpdatePostCommand($id, $data['date'], $data['title'], $data['text'], $data['comments'])
-            );
+        if ($form->isSubmitted() && $form->isValid()) {
+            $updatePostCommand = $form->getData();
+            $this->commandBus->execute($updatePostCommand);
         } else {
             return new Response(
-                json_encode('Fields required: '.$form->getErrors())
+                json_encode(
+                    array(
+                    'error' => $form->getErrors()
+                    )
+                )
             );
         }
 
