@@ -3,11 +3,11 @@
 namespace App\User\Infrastructure\UI\API\Controller;
 
 use App\Kernel\Application\Command\CommandBus;
-use App\User\Application\Command\AddUserCommand;
 use App\User\Application\Command\DeleteUserCommand;
-use App\User\Application\Command\UpdateUserCommand;
 use App\User\Application\Query\ViewUserQuery;
 use App\User\Application\Query\ViewUsersQuery;
+use App\User\Infrastructure\UI\API\Form\UserAddType;
+use App\User\Infrastructure\UI\API\Form\UserUpdateType;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,7 +91,7 @@ final class UserController extends FOSRestController
      *     in="body",
      *     description="Add User",
      *     type="object",
-     *     @Model(type=App\User\Application\Command\AddUserCommand::class)
+     *     @Model(type=App\User\Infrastructure\UI\API\Form\UserAddType::class)
      * ),
      * @SWG\Response(
      *     response=200,
@@ -100,32 +100,27 @@ final class UserController extends FOSRestController
      */
     public function postUserAction(Request $request): Response
     {
-        $username = ($request->get('username')) ? $request->get('username') : null;
-        $email = ($request->get('email')) ? $request->get('email') : null;
-        $password = ($request->get('password')) ? $request->get('password') : null;
-        if (!$username) {
-            return new Response(
-                json_encode('Username required')
-            );
-        }
-        if (!$email) {
-            return new Response(
-                json_encode('Email required')
-            );
-        }
-        if (!$password) {
-            return new Response(
-                json_encode('Password required')
-            );
-        }
+        $form = $this->createForm(UserAddType::class, null, ['method' => 'POST']);
+        $form->handleRequest($request);
 
-        try {
-            $this->commandBus->execute(
-                new AddUserCommand($username, $email, $password)
-            );
-        } catch (\Exception $e) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            $addUserCommand = $form->getData();
+            $this->commandBus->execute($addUserCommand);
+        } else {
+            $errors = [];
+            foreach ($form->getErrors(true) as $key => $error) {
+                $errors[] = array(
+                    "cause" => $error->getCause(),
+                    "description" => $error->getMessage(),
+                );
+            }
+
             return new Response(
-                json_encode($e->getMessage())
+                json_encode(
+                    array(
+                        'errors' => $errors
+                    )
+                )
             );
         }
 
@@ -145,7 +140,7 @@ final class UserController extends FOSRestController
      *     in="body",
      *     description="Update User",
      *     type="object",
-     *     @Model(type=App\User\Application\Command\UpdateUserCommand::class)
+     *     @Model(type=App\User\Infrastructure\UI\API\Form\UserUpdateType::class)
      * ),
      * @SWG\Response(
      *     response=200,
@@ -154,28 +149,29 @@ final class UserController extends FOSRestController
      */
     public function putUsersAction(Request $request, string $id): Response
     {
-        $username = ($request->get('username')) ? $request->get('username') : null;
-        $email = ($request->get('email')) ? $request->get('email') : null;
-        $enabled = ($request->get('enabled')) ? $request->get('enabled') : null;
-        if (!$username) {
-            return new Response(
-                json_encode('Username required')
-            );
-        }
-        if (!$email) {
-            return new Response(
-                json_encode('Email required')
-            );
-        }
-        if (!$enabled) {
-            return new Response(
-                json_encode('Enabled required')
-            );
-        }
+        $form = $this->createForm(UserUpdateType::class, null, ['method' => 'PUT', 'id' => $id]);
+        $form->handleRequest($request);
 
-        $this->commandBus->execute(
-            new UpdateUserCommand($id, $username, $email, $enabled)
-        );
+        if ($form->isSubmitted() && $form->isValid()) {
+            $updateUserCommand = $form->getData();
+            $this->commandBus->execute($updateUserCommand);
+        } else {
+            $errors = [];
+            foreach ($form->getErrors(true) as $key => $error) {
+                $errors[] = array(
+                    "field" => '',
+                    "description" => $error->getMessage(),
+                );
+            }
+
+            return new Response(
+                json_encode(
+                    array(
+                        'errors' => $errors
+                    )
+                )
+            );
+        }
 
         return new Response(
             json_encode('OK')

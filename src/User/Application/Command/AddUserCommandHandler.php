@@ -21,11 +21,11 @@ final class AddUserCommandHandler implements CommandHandler
 
     public function handle(Command $command = null)
     {
-        if ($this->userRepository->of($command->username(), null)){
+        if ($this->userRepository->of($command->username(), null)) {
             throw new UserAlreadyExistException("Username exists");
         }
 
-        if ($this->userRepository->of(null, $command->email())){
+        if ($this->userRepository->of(null, $command->email())) {
             throw new UserAlreadyExistException("Email exists");
         }
 

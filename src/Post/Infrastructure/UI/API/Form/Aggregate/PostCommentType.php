@@ -16,18 +16,18 @@ final class PostCommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder
-            ->add('id', TextType::class, array('required' => false))
-            ->add('userId', TextType::class)
-            ->add('text', TextType::class, array('required' => false))
+            ->add('id', TextType::class, array('mapped' => false, 'required' => false))
+            ->add('userId', TextType::class, array('mapped' => false))
+            ->add('text', TextType::class, array('mapped' => false, 'required' => false))
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Post\Application\Command\Aggregate\PostCommentCommand',
+            'data_class' => PostCommentCommand::class,
             'empty_data' => function (FormInterface $form) {
-                new PostCommentCommand(
+                return new PostCommentCommand(
                     $form->get('id')->getData(),
                     $form->get('userId')->getData(),
                     $form->get('text')->getData()

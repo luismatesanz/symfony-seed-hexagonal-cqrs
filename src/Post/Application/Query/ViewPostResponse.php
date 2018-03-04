@@ -46,7 +46,7 @@ final class ViewPostResponse
         return $this->text;
     }
 
-    public function comments()
+    public function comments() : ?array
     {
         return $this->comments;
     }

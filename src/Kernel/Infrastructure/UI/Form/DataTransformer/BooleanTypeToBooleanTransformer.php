@@ -6,7 +6,6 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 final class BooleanTypeToBooleanTransformer implements DataTransformerInterface
 {
-
     public function transform($value) : bool
     {
         if (true === $value || BooleanType::VALUE_TRUE === (int) $value || (string) $value === BooleanType::VALUE_STRING_TRUE) {

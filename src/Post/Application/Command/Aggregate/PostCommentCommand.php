@@ -30,7 +30,7 @@ class PostCommentCommand
         return $this->userId;
     }
 
-    public function text(): string
+    public function text(): ?string
     {
         return $this->text;
     }

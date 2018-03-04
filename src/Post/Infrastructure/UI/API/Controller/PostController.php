@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Post\Infrastructure\UI\API\Controller;
 
 use App\Kernel\Application\Command\CommandBus;
+use App\Kernel\Infrastructure\UI\Form\Error\ErrorFormResponse;
 use App\Post\Application\Command\AddPostCommand;
 use App\Post\Application\Command\DeletePostCommand;
 use App\Post\Application\Command\UpdatePostCommand;
@@ -115,10 +116,18 @@ final class PostController extends FOSRestController
             $addPostCommand = $form->getData();
             $this->commandBus->execute($addPostCommand);
         } else {
+            $errors = [];
+            foreach ($form->getErrors(true) as $key => $error) {
+                $errors[] = array(
+                    "field" => '',
+                    "description" => $error->getMessage(),
+                );
+            }
+
             return new Response(
                 json_encode(
                     array(
-                        'error' => $form->getErrors()
+                        'errors' => $errors
                     )
                 )
             );
@@ -156,10 +165,18 @@ final class PostController extends FOSRestController
             $updatePostCommand = $form->getData();
             $this->commandBus->execute($updatePostCommand);
         } else {
+            $errors = [];
+            foreach ($form->getErrors(true) as $key => $error) {
+                $errors[] = array(
+                    "field" => '',
+                    "description" => $error->getMessage(),
+                );
+            }
+
             return new Response(
                 json_encode(
                     array(
-                    'error' => $form->getErrors()
+                        'errors' => $errors
                     )
                 )
             );

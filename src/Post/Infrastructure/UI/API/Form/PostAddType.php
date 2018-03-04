@@ -26,7 +26,7 @@ final class PostAddType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Post\Application\Command\AddPostCommand',
+            'data_class' => AddPostCommand::class,
             'empty_data' => function (FormInterface $form) {
                 return new AddPostCommand(
                     $form->get('date')->getData(),
@@ -34,6 +34,7 @@ final class PostAddType extends AbstractType
                     $form->get('text')->getData()
                 );
             },
+            'mapped' => false,
             'csrf_protection' => false
         ));
     }

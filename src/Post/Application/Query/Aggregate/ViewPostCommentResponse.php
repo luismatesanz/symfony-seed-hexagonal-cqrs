@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace App\Post\Application\Query\Aggregate;
 
-
 use App\Post\Domain\Model\PostComment;
 use App\User\Application\Query\ViewUserResponse;
 

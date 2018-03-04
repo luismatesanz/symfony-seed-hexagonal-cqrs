@@ -6,6 +6,7 @@ namespace App\Post\Application\Command;
 
 use App\Kernel\Application\Command\Command;
 use App\Kernel\Application\Command\CommandHandler;
+use App\Post\Application\Command\Aggregate\PostCommentCommand;
 use App\Post\Domain\Model\PostCommentId;
 use App\Post\Domain\Model\PostDoesNotExistException;
 use App\Post\Domain\Model\PostRepository;
@@ -37,22 +38,25 @@ final class UpdatePostCommandHandler implements CommandHandler
         $this->postRepository->update($post);
     }
 
-    private function changeComments ($post, Command $command) {
+    private function changeComments($post, Command $command)
+    {
         // SAVE COMMENTS BEFORE UPDATE & INSERT
         $commentsBefore = clone $post->comments();
         // MODIFY COMMENTS
         foreach ($command->comments() as $comment) {
-            if ($this->checkExists($comment->postCommentId(), $post->comments()->toArray())) {
-                $post->updateComment($comment->postCommentId(), $comment->text());
-            } else {
-                $user = $this->userRepository->ofId($comment->userId());
-                $post->addComment($user, $comment->text());
+            if ($comment instanceof PostCommentCommand) {
+                if ($this->checkExists($comment->postCommentId(), $post->comments()->toArray())) {
+                    $post->updateComment($comment->postCommentId(), $comment->text());
+                } else {
+                    $user = $this->userRepository->ofId($comment->userId());
+                    $post->addComment($user, $comment->text());
+                }
             }
         }
 
         // REMOVE COMMENTS NOT EXISTS
         foreach ($commentsBefore as $comment) {
-            if (false === $this->checkExists($comment->postCommentId(), $command->comments()->toArray())) {
+            if (false === $this->checkExists($comment->postCommentId(), $command->comments())) {
                 $post->deleteComment($comment->postCommentId());
             }
         }
