@@ -5,10 +5,7 @@ declare(strict_types = 1);
 namespace App\Post\Infrastructure\UI\API\Controller;
 
 use App\Kernel\Application\Command\CommandBus;
-use App\Kernel\Infrastructure\UI\Form\Error\ErrorFormResponse;
-use App\Post\Application\Command\AddPostCommand;
 use App\Post\Application\Command\DeletePostCommand;
-use App\Post\Application\Command\UpdatePostCommand;
 use App\Post\Application\Query\ViewPostQuery;
 use App\Post\Application\Query\ViewPostsQuery;
 use App\Post\Infrastructure\UI\API\Form\PostAddType;
@@ -43,7 +40,8 @@ final class PostController extends FOSRestController
      *     response=200,
      *     description="Returns all posts",
      *     @SWG\Schema(
-     *         @Model(type=App\Post\Application\Query\ViewPostsResponse::class)
+     *         type="array",
+     *         @Model(type=App\Post\Application\Query\ViewPostResponse::class)
      *     )
      * )
      */
@@ -181,15 +179,6 @@ final class PostController extends FOSRestController
      * @Rest\View()
      *
      * @SWG\Tag(name="post")
-     * @SWG\Parameter(
-     *     name="",
-     *     in="body",
-     *     description="Delete Post",
-     *     type="object",
-     *     @Model(
-     *          type=App\Post\Application\Command\DeletePostCommand::class
-     *     )
-     * ),
      * @SWG\Response(
      *     response=200,
      *     description="Returns"

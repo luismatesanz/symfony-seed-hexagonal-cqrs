@@ -1,0 +1,6 @@
+jms_serializer:
+    metadata:
+        directories:
+            post:
+                namespace_prefix: App\Post\Application\
+                path: "%kernel.root_dir%/Post/Infrastructure/Application/Serializer/"

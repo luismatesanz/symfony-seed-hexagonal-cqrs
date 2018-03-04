@@ -53,6 +53,9 @@ class Kernel extends BaseKernel
         // DOCTRINE
         $this->loadMappingsDoctrine($container);
         $loader->load($this->getProjectDir().'/src/*/Infrastructure/Persistence/Doctrine/types'.self::CONFIG_EXTS, 'glob');
+
+        // SERIALIZER
+        $loader->load($this->getProjectDir().'/src/*/Infrastructure/Application/serializer'.self::CONFIG_EXTS, 'glob');
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)

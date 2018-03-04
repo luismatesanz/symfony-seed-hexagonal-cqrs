@@ -36,7 +36,8 @@ final class UserController extends FOSRestController
      *     response=200,
      *     description="Returns all users",
      *     @SWG\Schema(
-     *         @Model(type=App\User\Application\Query\ViewUsersResponse::class)
+     *         type="array",
+     *         @Model(type=App\User\Application\Query\ViewUserResponse::class)
      *     )
      * )
      */
@@ -171,15 +172,6 @@ final class UserController extends FOSRestController
      * @Rest\View()
      *
      * @SWG\Tag(name="user")
-     * @SWG\Parameter(
-     *     name="",
-     *     in="body",
-     *     description="Delete User",
-     *     type="object",
-     *     @Model(
-     *          type=App\User\Application\Command\DeleteUserCommand::class
-     *     )
-     * ),
      * @SWG\Response(
      *     response=200,
      *     description="Returns"
