@@ -8,7 +8,7 @@ use App\User\Domain\Model\User;
 
 final class ViewUserResponse
 {
-    private $userId;
+    private $id;
     private $dateCreation;
     private $username;
     private $email;
@@ -16,16 +16,16 @@ final class ViewUserResponse
 
     public function __construct(User $user)
     {
-        $this->userId = $user->id()->id();
-        $this->dateCreation = $user->dateCreation();
+        $this->id = $user->id()->id();
+        $this->dateCreation = $user->dateCreation()->format("Y-m-d H:i:s");
         $this->username = $user->username();
         $this->email = $user->email();
         $this->enabled = $user->enabled();
     }
 
-    public function userId(): string
+    public function id(): string
     {
-        return $this->userId;
+        return $this->id;
     }
 
     public function dateCreation(): \DateTime

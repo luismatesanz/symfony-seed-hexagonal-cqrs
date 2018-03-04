@@ -1,0 +1,13 @@
+App\User\Application\Query\ViewUserResponse:
+  expose: ALL
+  properties:
+      id:
+        type: string
+      dateCreation:
+        type: string
+      username:
+        type: string
+      email:
+        type: string
+      enabled:
+        type: string

@@ -70,6 +70,7 @@ final class PostController extends FOSRestController
      *     response=200,
      *     description="Returns post",
      *     @SWG\Schema(
+     *         type="object",
      *         @Model(type=App\Post\Application\Query\ViewPostResponse::class)
      *     )
      * )

@@ -1,0 +1,5 @@
+App\Post\Application\Query\ViewPostsResponse:
+  expose: ALL
+  properties:
+    inline:
+      type: array

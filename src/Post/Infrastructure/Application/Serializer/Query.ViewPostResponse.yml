@@ -1,0 +1,13 @@
+App\Post\Application\Query\ViewPostResponse:
+  expose: ALL
+  properties:
+      id:
+        type: string
+      date:
+        type: string
+      title:
+        type: string
+      text:
+        type: string
+      comments:
+        type: string

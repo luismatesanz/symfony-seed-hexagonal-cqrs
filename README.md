@@ -26,4 +26,3 @@ TODO
 ------------
 
 Pending test.  <br />
-Pending documentation as code with DTO (NelmioApiDocBundle). <br />
