@@ -31,7 +31,9 @@ final class UpdatePostCommandHandler implements CommandHandler
             throw new PostDoesNotExistException();
         }
 
+        $post = $post->changeDate($command->date());
         $post = $post->changeTitle($command->title());
+        $post = $post->changeText($command->text());
         // MODIFY AGGREGATE COMMENTS
         $this->changeComments($post, $command);
 

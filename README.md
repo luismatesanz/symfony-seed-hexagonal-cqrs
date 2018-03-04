@@ -22,7 +22,14 @@ Routes
 /api/doc is a route for your api swagger documentation.
 
 
+Test
+------------
+Execute in command line in path folder project:
+
+    phpunit
+
 TODO
 ------------
 
-Pending test.  <br />
+Pending test aggregate Post.  <br />
+Pending test entity User.  <br />

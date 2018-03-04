@@ -43,6 +43,12 @@ class Post
         return $this->date;
     }
 
+    public function changeDate(\DateTime $date) : Post
+    {
+        $this->date = $date;
+        return $this;
+    }
+
     public function title(): string
     {
         return $this->title;
@@ -57,6 +63,12 @@ class Post
     public function text(): ?string
     {
         return $this->text;
+    }
+
+    public function changeText(string $text): Post
+    {
+        $this->text = $text;
+        return $this;
     }
 
     public function status(): string

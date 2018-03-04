@@ -1,4 +1,3 @@
-
 ###> symfony/framework-bundle ###
 .env
 /public/bundles/
@@ -6,10 +5,12 @@
 /vendor/
 ###< symfony/framework-bundle ###
 .idea/
-
+.php_cs.cache
 ###> symfony/phpunit-bridge ###
 .phpunit
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-.php_cs.cache
+###> phpunit/phpunit ###
+/phpunit.xml
+###< phpunit/phpunit ###
