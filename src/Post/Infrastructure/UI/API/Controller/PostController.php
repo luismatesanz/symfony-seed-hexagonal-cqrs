@@ -123,19 +123,12 @@ final class PostController extends FOSRestController
                     "description" => $error->getMessage(),
                 );
             }
-
-            return new Response(
-                json_encode(
-                    array(
-                        'errors' => $errors
-                    )
-                )
-            );
+            $view = $this->view(array('error' => $errors), Response::HTTP_BAD_REQUEST);
+            return $this->handleView($view);
         }
 
-        return new Response(
-            json_encode('OK')
-        );
+        $view = $this->view(array('message' => 'Add post'), Response::HTTP_OK);
+        return $this->handleView($view);
     }
 
     /**
@@ -172,20 +165,12 @@ final class PostController extends FOSRestController
                     "description" => $error->getMessage(),
                 );
             }
-
-            return new Response(
-                json_encode(
-                    array(
-                        'errors' => $errors
-                    )
-                )
-            );
+            $view = $this->view(array('error' => $errors), Response::HTTP_BAD_REQUEST);
+            return $this->handleView($view);
         }
 
-
-        return new Response(
-            json_encode('OK')
-        );
+        $view = $this->view(array('message' => 'Update post'), Response::HTTP_OK);
+        return $this->handleView($view);
     }
 
 
@@ -215,8 +200,7 @@ final class PostController extends FOSRestController
             new DeletePostCommand($id)
         );
 
-        return new Response(
-            json_encode('OK')
-        );
+        $view = $this->view(array('message' => 'Delete post'), Response::HTTP_OK);
+        return $this->handleView($view);
     }
 }

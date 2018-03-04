@@ -114,19 +114,12 @@ final class UserController extends FOSRestController
                     "description" => $error->getMessage(),
                 );
             }
-
-            return new Response(
-                json_encode(
-                    array(
-                        'errors' => $errors
-                    )
-                )
-            );
+            $view = $this->view(array('error' => $errors), Response::HTTP_BAD_REQUEST);
+            return $this->handleView($view);
         }
 
-        return new Response(
-            json_encode('OK')
-        );
+        $view = $this->view(array('message' => 'Add user'), Response::HTTP_OK);
+        return $this->handleView($view);
     }
 
     /**
@@ -163,19 +156,12 @@ final class UserController extends FOSRestController
                     "description" => $error->getMessage(),
                 );
             }
-
-            return new Response(
-                json_encode(
-                    array(
-                        'errors' => $errors
-                    )
-                )
-            );
+            $view = $this->view(array('error' => $errors), Response::HTTP_BAD_REQUEST);
+            return $this->handleView($view);
         }
 
-        return new Response(
-            json_encode('OK')
-        );
+        $view = $this->view(array('message' => 'Update user'), Response::HTTP_OK);
+        return $this->handleView($view);
     }
 
 
@@ -205,8 +191,7 @@ final class UserController extends FOSRestController
             new DeleteUserCommand($id)
         );
 
-        return new Response(
-            json_encode('OK')
-        );
+        $view = $this->view(array('message' => 'Delete user'), Response::HTTP_OK);
+        return $this->handleView($view);
     }
 }
