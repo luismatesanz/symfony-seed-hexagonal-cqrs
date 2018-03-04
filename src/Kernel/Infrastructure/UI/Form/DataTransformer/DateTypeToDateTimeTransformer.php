@@ -1,8 +1,8 @@
 <?php
 namespace App\Kernel\Infrastructure\UI\Form\DataTransformer;
 
-use Couchbase\Exception;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 
 final class DateTypeToDateTimeTransformer implements DataTransformerInterface
 {
@@ -18,7 +18,7 @@ final class DateTypeToDateTimeTransformer implements DataTransformerInterface
         }
         $date = \DateTime::createFromFormat('Y-m-d H:i:s', $value);
         if (!$date) {
-            throw new \Exception('Invalid date format');
+            throw new TransformationFailedException('Invalid date format');
         }
         return $date;
     }
