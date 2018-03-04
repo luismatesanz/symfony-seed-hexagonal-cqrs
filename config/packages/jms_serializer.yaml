@@ -1,3 +1,5 @@
+parameters:
+    jms_serializer.camel_case_naming_strategy.class: App\Kernel\Infrastructure\UI\Serializer\LowerCamelCaseNamingStrategy
 jms_serializer:
     property_naming:
         separator:
