@@ -2,6 +2,8 @@ services:
     post_add_command_handler:
         class: App\Post\Application\Command\AddPostCommandHandler
         autowire: true
+        arguments:
+            $postRepository: App\Post\Infrastructure\Domain\DoctrinePostRepository
         public: true
         tags:
             - { name: command_handler, handles: App\Post\Application\Command\AddPostCommand }
@@ -9,6 +11,9 @@ services:
     post_update_command_handler:
         class: App\Post\Application\Command\UpdatePostCommandHandler
         autowire: true
+        arguments:
+            $postRepository: App\Post\Infrastructure\Domain\DoctrinePostRepository
+            $userRepository: App\User\Infrastructure\Domain\DoctrineUserRepository
         public: true
         tags:
             - { name: command_handler, handles: App\Post\Application\Command\UpdatePostCommand }
@@ -16,6 +21,8 @@ services:
     post_delete_command_handler:
         class: App\Post\Application\Command\DeletePostCommandHandler
         autowire: true
+        arguments:
+            $postRepository: App\Post\Infrastructure\Domain\DoctrinePostRepository
         public: true
         tags:
             - { name: command_handler, handles: App\Post\Application\Command\DeletePostCommand }

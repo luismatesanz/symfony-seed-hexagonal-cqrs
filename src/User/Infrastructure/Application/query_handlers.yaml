@@ -2,8 +2,12 @@ services:
     user_view_query_handler:
         class: App\User\Application\Query\ViewUserQueryHandler
         autowire: true
+        arguments:
+          $userRepository: App\User\Infrastructure\Domain\DoctrineUserRepository
         public: true
     users_view_query_handler:
         class: App\User\Application\Query\ViewUsersQueryHandler
         autowire: true
+        arguments:
+          $userRepository: App\User\Infrastructure\Domain\DoctrineUserRepository
         public: true

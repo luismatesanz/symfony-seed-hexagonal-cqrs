@@ -2,8 +2,12 @@ services:
     post_view_query_handler:
         class: App\Post\Application\Query\ViewPostQueryHandler
         autowire: true
+        arguments:
+            $postRepository: App\Post\Infrastructure\Domain\DoctrinePostRepository
         public: true
     posts_view_query_handler:
         class: App\Post\Application\Query\ViewPostsQueryHandler
         autowire: true
+        arguments:
+            $postRepository: App\Post\Infrastructure\Domain\DoctrinePostRepository
         public: true
