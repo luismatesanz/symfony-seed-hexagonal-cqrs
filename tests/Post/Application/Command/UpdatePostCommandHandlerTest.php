@@ -4,10 +4,12 @@ declare(strict_types = 1);
 
 namespace App\Tests\Post\Application\Command;
 
+use App\Post\Application\Command\Aggregate\PostCommentCommand;
 use App\Post\Application\Command\UpdatePostCommand;
 use App\Post\Application\Command\UpdatePostCommandHandler;
 use App\Post\Infrastructure\Persistence\InMemory\InMemoryPostRepository;
 use App\Tests\Post\Domain\Model\PostDummy;
+use App\Tests\User\Domain\Model\UserDummy;
 use App\User\Infrastructure\Persistence\InMemory\InMemoryUserRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -17,6 +19,7 @@ class UpdatePostCommandHandlerTest extends TestCase
     private $userRepository;
     private $updatePostCommandHandler;
     private $dummyPost;
+    private $dummyUser;
 
     public function setUp()
     {
@@ -38,6 +41,8 @@ class UpdatePostCommandHandlerTest extends TestCase
     private function setupUserRepository()
     {
         $this->userRepository = new InMemoryUserRepository();
+        $this->dummyUser = UserDummy::create($this->userRepository->nextIdentity(), 'username', 'password', 'info@email.com');
+        $this->userRepository->add($this->dummyUser);
     }
 
     /**
@@ -60,5 +65,34 @@ class UpdatePostCommandHandlerTest extends TestCase
         $this->assertEquals($dateNew, $post->date());
         $this->assertEquals($titleNew, $post->title());
         $this->assertEquals($textNew, $post->text());
+    }
+
+    /**
+     * @test
+     */
+    public function dataPostCommentAggregateShouldBeModified()
+    {
+        $commentDummy1 = new PostCommentCommand(
+            null,
+            $this->dummyUser->id()->id(),
+            'Comment Dummy 1'
+            );
+        $commentDummy2 = new PostCommentCommand(
+            null,
+            $this->dummyUser->id()->id(),
+            'Comment Dummy 2'
+            );
+        $comments = array($commentDummy1, $commentDummy2);
+        $postId = $this->dummyPost->id();
+        $this->updatePostCommandHandler->handle(new UpdatePostCommand(
+            $postId->id(),
+            $this->dummyPost->date(),
+            $this->dummyPost->title(),
+            $this->dummyPost->text(),
+            $comments
+        ));
+        $post = $this->postRepository->ofId($postId);
+        //$text = array_column($post->comments(), 'text');
+        //die($text);
     }
 }

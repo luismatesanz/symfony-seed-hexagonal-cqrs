@@ -76,7 +76,7 @@ class Post
         return $this->status;
     }
 
-    public function comments()
+    public function comments() : ?ArrayCollection
     {
         return $this->comments;
     }
