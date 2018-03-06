@@ -12,6 +12,7 @@ Execute in command line in path folder project:
   2. configure .env your configuration data. 
   3. bin/console doctrine:create:database
   4. bin/console doctrine:schema:update --force --dump-sql
+  5. bin/console assets:install
 
 Enjoy the application.
   
