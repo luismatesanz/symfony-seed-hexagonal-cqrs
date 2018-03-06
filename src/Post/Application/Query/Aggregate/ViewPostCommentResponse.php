@@ -18,7 +18,7 @@ final class ViewPostCommentResponse
     {
         $this->id = $postComment->postCommentId()->id();
         $this->user = new ViewUserResponse($postComment->user());
-        $this->dateCreation = $postComment->dateCreation();
+        $this->dateCreation = $postComment->dateCreation()->format("Y-m-d H:i:s");
         $this->text = $postComment->text();
     }
 }

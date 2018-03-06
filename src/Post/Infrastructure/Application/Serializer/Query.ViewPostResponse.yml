@@ -10,4 +10,4 @@ App\Post\Application\Query\ViewPostResponse:
       text:
         type: string
       comments:
-        type: string
+        type: array<App\Post\Application\Query\Aggregate\ViewPostCommentResponse>

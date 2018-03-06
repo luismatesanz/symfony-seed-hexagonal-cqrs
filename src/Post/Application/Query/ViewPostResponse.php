@@ -11,6 +11,7 @@ final class ViewPostResponse
 {
     private $id;
     private $date;
+    private $dateCreation;
     private $title;
     private $text;
     private $comments;
@@ -18,7 +19,8 @@ final class ViewPostResponse
     public function __construct(Post $post)
     {
         $this->id = $post->id()->id();
-        $this->date = $post->date();
+        $this->dateCreation = $post->dateCreation()->format("Y-m-d H:i:s");
+        $this->date = $post->date()->format("Y-m-d H:i:s");
         $this->title = $post->title();
         $this->text = $post->text();
         foreach ($post->comments() as $key => $comment) {
@@ -31,7 +33,12 @@ final class ViewPostResponse
         return $this->id;
     }
 
-    public function date(): \DateTime
+    public function dateCreation(): string
+    {
+        return $this->dateCreation;
+    }
+
+    public function date(): string
     {
         return $this->date;
     }

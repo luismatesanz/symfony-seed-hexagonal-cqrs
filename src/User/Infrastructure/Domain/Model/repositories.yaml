@@ -1,0 +1,4 @@
+services:
+    App\User\Infrastructure\Domain\Model\DoctrineUserRepository:
+      autowire: true
+    App\User\Domain\Model\UserRepository: '@App\User\Infrastructure\Domain\Model\DoctrineUserRepository'

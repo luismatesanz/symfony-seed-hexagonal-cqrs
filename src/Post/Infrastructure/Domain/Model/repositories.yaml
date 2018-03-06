@@ -1,0 +1,4 @@
+services:
+    App\Post\Infrastructure\Domain\Model\DoctrinePostRepository:
+      autowire: true
+    App\Post\Domain\Model\PostRepository: '@App\Post\Infrastructure\Domain\Model\DoctrinePostRepository'

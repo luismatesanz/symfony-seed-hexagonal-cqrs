@@ -2,8 +2,6 @@ services:
     user_add_command_handler:
         class: App\User\Application\Command\AddUserCommandHandler
         autowire: true
-        arguments:
-          $userRepository: App\User\Infrastructure\Domain\DoctrineUserRepository
         public: true
         tags:
             - { name: command_handler, handles: App\User\Application\Command\AddUserCommand }
@@ -11,8 +9,6 @@ services:
     user_update_command_handler:
         class: App\User\Application\Command\UpdateUserCommandHandler
         autowire: true
-        arguments:
-          $userRepository: App\User\Infrastructure\Domain\DoctrineUserRepository
         public: true
         tags:
             - { name: command_handler, handles: App\User\Application\Command\UpdateUserCommand }
@@ -20,8 +16,6 @@ services:
     user_delete_command_handler:
         class: App\User\Application\Command\DeleteUserCommandHandler
         autowire: true
-        arguments:
-          $userRepository: App\User\Infrastructure\Domain\DoctrineUserRepository
         public: true
         tags:
             - { name: command_handler, handles: App\User\Application\Command\DeleteUserCommand }

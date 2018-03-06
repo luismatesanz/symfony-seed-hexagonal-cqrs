@@ -1,0 +1,11 @@
+App\Post\Application\Query\Aggregate\ViewPostCommentResponse:
+  expose: ALL
+  properties:
+      id:
+        type: string
+      user:
+        type: App\User\Application\Query\ViewUserResponse
+      dateCreation:
+        type: string
+      text:
+        type: string

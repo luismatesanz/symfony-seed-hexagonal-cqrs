@@ -28,7 +28,7 @@ final class ViewUserResponse
         return $this->id;
     }
 
-    public function dateCreation(): \DateTime
+    public function dateCreation(): string
     {
         return $this->dateCreation;
     }

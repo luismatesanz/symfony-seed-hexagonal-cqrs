@@ -15,7 +15,7 @@ final class ViewPostsResponse
         }
     }
 
-    public function posts() : array
+    public function posts() : ?array
     {
         return $this->posts;
     }
