@@ -4,11 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Post\Application\Query;
 
-use App\Kernel\Application\Query\Query;
 use App\Kernel\Application\Query\QueryHandler;
-use App\Post\Domain\Model\Post;
 use App\Post\Domain\Model\PostDoesNotExistException;
-use App\Post\Domain\Model\PostId;
 use App\Post\Domain\Model\PostRepository;
 
 final class ViewPostQueryHandler implements QueryHandler
@@ -20,7 +17,7 @@ final class ViewPostQueryHandler implements QueryHandler
         $this->postRepository = $postRepository;
     }
 
-    public function execute(Query $request = null) : ViewPostResponse
+    public function handle(ViewPostQuery $request = null) : ViewPostResponse
     {
         $postId = $request->postId();
 

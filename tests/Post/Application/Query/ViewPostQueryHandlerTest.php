@@ -38,7 +38,7 @@ class ViewPostQueryHandlerTest extends TestCase
      */
     public function throwAnExceptionPostDoesNotExists()
     {
-        $this->viewPostQueryHandler->execute(new ViewPostQuery('1'));
+        $this->viewPostQueryHandler->handle(new ViewPostQuery('1'));
     }
 
     /**
@@ -46,7 +46,7 @@ class ViewPostQueryHandlerTest extends TestCase
      */
     public function getPostExists()
     {
-        $post = $this->viewPostQueryHandler->execute(new ViewPostQuery($this->dummyPost->id()->id()));
+        $post = $this->viewPostQueryHandler->handle(new ViewPostQuery($this->dummyPost->id()->id()));
         $this->assertEquals($post, new ViewPostResponse($this->dummyPost));
     }
 }

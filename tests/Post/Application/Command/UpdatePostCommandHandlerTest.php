@@ -67,9 +67,9 @@ class UpdatePostCommandHandlerTest extends TestCase
         $this->assertEquals($textNew, $post->text());
     }
 
-    /**
+    /*
      * @test
-     */
+     *
     public function dataPostCommentAggregateShouldBeModified()
     {
         $commentDummy1 = new PostCommentCommand(
@@ -94,5 +94,5 @@ class UpdatePostCommandHandlerTest extends TestCase
         $post = $this->postRepository->ofId($postId);
         //$text = array_column($post->comments(), 'text');
         //die($text);
-    }
+    }*/
 }

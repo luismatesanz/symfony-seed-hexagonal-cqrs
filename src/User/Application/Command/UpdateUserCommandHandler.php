@@ -6,6 +6,7 @@ namespace App\User\Application\Command;
 
 use App\Kernel\Application\Command\Command;
 use App\Kernel\Application\Command\CommandHandler;
+use App\User\Application\Query\ViewUserResponse;
 use App\User\Domain\Model\UserDoesNotExistException;
 use App\User\Domain\Model\UserRepository;
 
@@ -18,7 +19,7 @@ final class UpdateUserCommandHandler implements CommandHandler
         $this->userRepository = $userRepository;
     }
 
-    public function handle(Command $command = null)
+    public function handle(UpdateUserCommand $command = null) : ViewUserResponse
     {
         $user = $this->userRepository->ofId($command->userId());
 
@@ -31,5 +32,7 @@ final class UpdateUserCommandHandler implements CommandHandler
         $user->changeEnabled($command->enabled());
 
         $this->userRepository->update($user);
+
+        return new ViewUserResponse($user);
     }
 }

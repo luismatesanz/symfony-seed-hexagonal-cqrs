@@ -7,10 +7,12 @@ namespace App\Post\Application\Command;
 use App\Kernel\Application\Command\Command;
 use App\Kernel\Application\Command\CommandHandler;
 use App\Post\Application\Command\Aggregate\PostCommentCommand;
+use App\Post\Domain\Model\Post;
 use App\Post\Domain\Model\PostCommentId;
 use App\Post\Domain\Model\PostDoesNotExistException;
 use App\Post\Domain\Model\PostRepository;
 use App\User\Domain\Model\UserRepository;
+use App\Post\Application\Query\ViewPostResponse;
 
 final class UpdatePostCommandHandler implements CommandHandler
 {
@@ -23,7 +25,7 @@ final class UpdatePostCommandHandler implements CommandHandler
         $this->userRepository = $userRepository;
     }
 
-    public function handle(Command $command = null)
+    public function handle(UpdatePostCommand $command = null) : ViewPostResponse
     {
         $post = $this->postRepository->ofId($command->postId());
 
@@ -38,6 +40,8 @@ final class UpdatePostCommandHandler implements CommandHandler
         $this->changeComments($post, $command);
 
         $this->postRepository->update($post);
+
+        return new ViewPostResponse($post);
     }
 
     private function changeComments($post, Command $command)

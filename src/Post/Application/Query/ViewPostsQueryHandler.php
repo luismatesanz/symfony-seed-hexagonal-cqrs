@@ -18,7 +18,7 @@ final class ViewPostsQueryHandler implements QueryHandler
         $this->postRepository = $postRepository;
     }
 
-    public function execute(Query $request = null) : ViewPostsResponse
+    public function handle(ViewPostsQuery $request = null) : ViewPostsResponse
     {
         $posts = $this->postRepository->all(
             $request->limit(),

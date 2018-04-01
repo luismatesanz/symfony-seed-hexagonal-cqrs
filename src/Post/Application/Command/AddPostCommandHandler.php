@@ -6,6 +6,7 @@ namespace App\Post\Application\Command;
 
 use App\Kernel\Application\Command\Command;
 use App\Kernel\Application\Command\CommandHandler;
+use App\Post\Application\Query\ViewPostResponse;
 use App\Post\Domain\Model\Post;
 use App\Post\Domain\Model\PostRepository;
 
@@ -18,10 +19,10 @@ final class AddPostCommandHandler implements CommandHandler
         $this->postRepository = $postRepository;
     }
 
-    public function handle(Command $command = null)
+    public function handle(AddPostCommand $command = null) : ViewPostResponse
     {
-        $this->postRepository->add(
-            new Post($this->postRepository->nextIdentity(), $command->date(), $command->title(), $command->text())
-        );
+        $post = new Post($this->postRepository->nextIdentity(), $command->date(), $command->title(), $command->text());
+        $this->postRepository->add($post);
+        return new ViewPostResponse($post);
     }
 }

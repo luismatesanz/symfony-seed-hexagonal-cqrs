@@ -40,7 +40,7 @@ class ViewPostsQueryHandlerTest extends TestCase
      */
     public function getAllPostExists()
     {
-        $post = $this->viewPostsQueryHandler->execute(new ViewPostsQuery());
+        $post = $this->viewPostsQueryHandler->handle(new ViewPostsQuery());
         $this->assertEquals(
             $post,
             new ViewPostsResponse(

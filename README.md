@@ -29,8 +29,20 @@ Execute in command line in path folder project:
 
     phpunit
 
+HEXAGONAL
+------------
+Implements all adapters with interfaces in the infrastructure layer. <br />
+
+
+CQRS
+------------
+All commands return modified entities except those that run asynchronously. <br />
+Use the application layer in the controllers of the two communication buses. <br />
+
+
 TODO
 ------------
-
+Implement asynchronously TacticianCommandBus. <br />
+Implement event bus. <br />
 Pending test aggregate Post.  <br />
 Pending test entity User.  <br />

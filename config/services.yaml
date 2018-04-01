@@ -14,15 +14,34 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
-    App\:
-        resource: '../src/'
-        exclude: '../src/{Entity,Migrations,Tests}'
+    querys:
+        namespace: App\
+        resource: '../src/*/Application/Query/'
+        tags:
+          - { name: tactician.handler, typehints: true, bus: query }
 
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-#    App\Infrastructure\UI\:
-#        resource: '../src/*'
-#        tags: ['controller.service_arguments']
+    commands:
+        namespace: App\
+        resource: '../src/*/Application/Command/'
+        tags:
+          - { name: tactician.handler, typehints: true, bus: command }
+
+    controllers:
+        namespace: App\
+        resource: '../src/*/Infrastructure/UI/*/Controller/'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    command_bus:
+        class: App\Kernel\Infrastructure\Application\TacticianCommandBus
+        arguments:
+          - "@tactician.commandbus.command"
+
+    App\Kernel\Application\Command\CommandBus: '@command_bus'
+
+    query_bus:
+        class: App\Kernel\Infrastructure\Application\TacticianQueryBus
+        arguments:
+          - "@tactician.commandbus.query"
+
+    App\Kernel\Application\Query\QueryBus: '@query_bus'

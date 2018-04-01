@@ -18,7 +18,7 @@ final class ViewUserQueryHandler implements QueryHandler
         $this->userRepository = $userRepository;
     }
 
-    public function execute(Query $request = null) : ViewUserResponse
+    public function handle(ViewUserQuery $request = null) : ViewUserResponse
     {
         $userId = $request->userId();
 

@@ -6,6 +6,7 @@ namespace App\User\Application\Command;
 
 use App\Kernel\Application\Command\Command;
 use App\Kernel\Application\Command\CommandHandler;
+use App\User\Application\Query\ViewUserResponse;
 use App\User\Domain\Model\User;
 use App\User\Domain\Model\UserAlreadyExistException;
 use App\User\Domain\Model\UserRepository;
@@ -19,7 +20,7 @@ final class AddUserCommandHandler implements CommandHandler
         $this->userRepository = $userRepository;
     }
 
-    public function handle(Command $command = null)
+    public function handle(AddUserCommand $command = null) : ViewUserResponse
     {
         if ($this->userRepository->of($command->username(), null)) {
             throw new UserAlreadyExistException("Username exists");
@@ -29,8 +30,8 @@ final class AddUserCommandHandler implements CommandHandler
             throw new UserAlreadyExistException("Email exists");
         }
 
-        $this->userRepository->add(
-            new User($this->userRepository->nextIdentity(), $command->username(), $command->email(), $command->password())
-        );
+        $user = new User($this->userRepository->nextIdentity(), $command->username(), $command->email(), $command->password());
+        $this->userRepository->add($user);
+        return new ViewUserResponse($user);
     }
 }

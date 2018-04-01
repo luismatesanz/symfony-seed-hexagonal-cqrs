@@ -3,6 +3,7 @@
 namespace App\User\Infrastructure\UI\API\Controller;
 
 use App\Kernel\Application\Command\CommandBus;
+use App\Kernel\Application\Query\QueryBus;
 use App\User\Application\Command\DeleteUserCommand;
 use App\User\Application\Query\ViewUserQuery;
 use App\User\Application\Query\ViewUsersQuery;
@@ -17,10 +18,12 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 
 final class UserController extends FOSRestController
 {
+    private $queryBus;
     private $commandBus;
 
-    public function __construct(CommandBus $commandBus)
+    public function __construct(QueryBus $queryBus, CommandBus $commandBus)
     {
+        $this->queryBus = $queryBus;
         $this->commandBus = $commandBus;
     }
 
@@ -46,7 +49,7 @@ final class UserController extends FOSRestController
         $limit = ($limit) ? intval($limit) : null;
         $page = ($page) ? intval($page) : null;
 
-        $user = $this->get('users_view_query_handler')->execute(new ViewUsersQuery($limit, $page));
+        $user = $this->queryBus->execute(new ViewUsersQuery($limit, $page));
 
         $view = $this->view($user->users(), Response::HTTP_OK);
         return $this->handleView($view);
@@ -69,7 +72,7 @@ final class UserController extends FOSRestController
     public function getUserAction(string $id): Response
     {
         try {
-            $user = $this->get('user_view_query_handler')->execute(new ViewUserQuery($id));
+            $user = $this->queryBus->execute(new ViewUserQuery($id));
             $view = $this->view($user, Response::HTTP_OK);
         } catch (\Exception $e) {
             $view = $this->view(array('error' => 'No content'), Response::HTTP_NO_CONTENT);
@@ -96,7 +99,10 @@ final class UserController extends FOSRestController
      * ),
      * @SWG\Response(
      *     response=200,
-     *     description="Returns"
+     *     description="Returns user",
+     *     @SWG\Schema(
+     *         @Model(type=App\User\Application\Query\ViewUserResponse::class)
+     *     )
      * )
      */
     public function postUserAction(Request $request): Response
@@ -106,7 +112,7 @@ final class UserController extends FOSRestController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $addUserCommand = $form->getData();
-            $this->commandBus->execute($addUserCommand);
+            $user = $this->commandBus->execute($addUserCommand);
         } else {
             $errors = [];
             foreach ($form->getErrors(true) as $key => $error) {
@@ -119,7 +125,7 @@ final class UserController extends FOSRestController
             return $this->handleView($view);
         }
 
-        $view = $this->view(array('message' => 'Add user'), Response::HTTP_OK);
+        $view = $this->view($user, Response::HTTP_OK);
         return $this->handleView($view);
     }
 
@@ -138,7 +144,10 @@ final class UserController extends FOSRestController
      * ),
      * @SWG\Response(
      *     response=200,
-     *     description="Returns"
+     *     description="Returns user",
+     *     @SWG\Schema(
+     *         @Model(type=App\User\Application\Query\ViewUserResponse::class)
+     *     )
      * )
      */
     public function putUsersAction(Request $request, string $id): Response
@@ -148,12 +157,12 @@ final class UserController extends FOSRestController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $updateUserCommand = $form->getData();
-            $this->commandBus->execute($updateUserCommand);
+            $user = $this->commandBus->execute($updateUserCommand);
         } else {
             $errors = [];
             foreach ($form->getErrors(true) as $key => $error) {
                 $errors[] = array(
-                    "field" => '',
+                    "cause" => $error->getCause(),
                     "description" => $error->getMessage(),
                 );
             }
@@ -161,7 +170,7 @@ final class UserController extends FOSRestController
             return $this->handleView($view);
         }
 
-        $view = $this->view(array('message' => 'Update user'), Response::HTTP_OK);
+        $view = $this->view($user, Response::HTTP_OK);
         return $this->handleView($view);
     }
 
@@ -174,7 +183,7 @@ final class UserController extends FOSRestController
      * @SWG\Tag(name="user")
      * @SWG\Response(
      *     response=200,
-     *     description="Returns"
+     *     description="Returns message"
      * )
      */
     public function deleteUsersAction(string $id): Response

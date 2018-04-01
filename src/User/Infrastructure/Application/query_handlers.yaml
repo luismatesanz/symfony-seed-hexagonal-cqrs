@@ -1,9 +1,0 @@
-services:
-    user_view_query_handler:
-        class: App\User\Application\Query\ViewUserQueryHandler
-        autowire: true
-        public: true
-    users_view_query_handler:
-        class: App\User\Application\Query\ViewUsersQueryHandler
-        autowire: true
-        public: true

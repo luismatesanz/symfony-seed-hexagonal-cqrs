@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Post\Infrastructure\UI\API\Controller;
 
 use App\Kernel\Application\Command\CommandBus;
+use App\Kernel\Application\Query\QueryBus;
 use App\Post\Application\Command\DeletePostCommand;
 use App\Post\Application\Query\ViewPostQuery;
 use App\Post\Application\Query\ViewPostsQuery;
@@ -19,10 +20,12 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 
 final class PostController extends FOSRestController
 {
+    private $queryBus;
     private $commandBus;
 
-    public function __construct(CommandBus $commandBus)
+    public function __construct(QueryBus $queryBus, CommandBus $commandBus)
     {
+        $this->queryBus = $queryBus;
         $this->commandBus = $commandBus;
     }
 
@@ -52,7 +55,7 @@ final class PostController extends FOSRestController
         $dateStart = ($dateStart) ? \DateTime::createFromFormat('Y-m-d', $dateStart) : null;
         $dateEnd = ($dateEnd) ? \DateTime::createFromFormat('Y-m-d', $dateEnd)  : null;
 
-        $post = $this->get('posts_view_query_handler')->execute(new ViewPostsQuery($limit, $page, $dateStart, $dateEnd));
+        $post = $this->queryBus->execute(new ViewPostsQuery($limit, $page, $dateStart, $dateEnd));
 
         $view = $this->view($post->posts(), Response::HTTP_OK);
         return $this->handleView($view);
@@ -75,7 +78,7 @@ final class PostController extends FOSRestController
     public function getPostAction(string $id): Response
     {
         try {
-            $post = $this->get('post_view_query_handler')->execute(new ViewPostQuery($id));
+            $post = $this->queryBus->execute(new ViewPostQuery($id));
             $view = $this->view($post, Response::HTTP_OK);
         } catch (\Exception $e) {
             $view = $this->view(array('error' => 'No content'), Response::HTTP_NO_CONTENT);
@@ -102,7 +105,10 @@ final class PostController extends FOSRestController
      * ),
      * @SWG\Response(
      *     response=200,
-     *     description="Returns"
+     *     description="Returns post",
+     *     @SWG\Schema(
+     *         @Model(type=App\Post\Application\Query\ViewPostResponse::class)
+     *     )
      * )
      */
     public function postPostAction(Request $request): Response
@@ -112,7 +118,7 @@ final class PostController extends FOSRestController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $addPostCommand = $form->getData();
-            $this->commandBus->execute($addPostCommand);
+            $postId = $this->commandBus->execute($addPostCommand);
         } else {
             $errors = [];
             foreach ($form->getErrors(true) as $key => $error) {
@@ -125,7 +131,7 @@ final class PostController extends FOSRestController
             return $this->handleView($view);
         }
 
-        $view = $this->view(array('message' => 'Add post'), Response::HTTP_OK);
+        $view = $this->view($postId, Response::HTTP_OK);
         return $this->handleView($view);
     }
 
@@ -144,7 +150,10 @@ final class PostController extends FOSRestController
      * ),
      * @SWG\Response(
      *     response=200,
-     *     description="Returns"
+     *     description="Returns post",
+     *     @SWG\Schema(
+     *         @Model(type=App\Post\Application\Query\ViewPostResponse::class)
+     *     )
      * )
      */
     public function putPostsAction(Request $request, string $id): Response
@@ -154,7 +163,7 @@ final class PostController extends FOSRestController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $updatePostCommand = $form->getData();
-            $this->commandBus->execute($updatePostCommand);
+            $post = $this->commandBus->execute($updatePostCommand);
         } else {
             $errors = [];
             foreach ($form->getErrors(true) as $key => $error) {
@@ -167,7 +176,7 @@ final class PostController extends FOSRestController
             return $this->handleView($view);
         }
 
-        $view = $this->view(array('message' => 'Update post'), Response::HTTP_OK);
+        $view = $this->view($post, Response::HTTP_OK);
         return $this->handleView($view);
     }
 
@@ -180,7 +189,7 @@ final class PostController extends FOSRestController
      * @SWG\Tag(name="post")
      * @SWG\Response(
      *     response=200,
-     *     description="Returns"
+     *     description="Returns message modify"
      * )
      */
     public function deletePostsAction(string $id): Response

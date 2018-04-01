@@ -17,7 +17,7 @@ final class DeleteUserCommandHandler implements CommandHandler
         $this->userRepository = $userRepository;
     }
 
-    public function handle(Command $command = null)
+    public function handle(DeleteUserCommand $command = null)
     {
         $user = $this->userRepository->ofId($command->userId());
         $this->userRepository->remove($user);

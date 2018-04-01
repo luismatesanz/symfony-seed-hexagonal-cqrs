@@ -18,7 +18,7 @@ final class ViewUsersQueryHandler implements QueryHandler
         $this->userRepository = $userRepository;
     }
 
-    public function execute(Query $request = null) : ViewUsersResponse
+    public function handle(ViewUsersQuery $request = null) : ViewUsersResponse
     {
         $users = $this->userRepository->all(
             $request->limit(),

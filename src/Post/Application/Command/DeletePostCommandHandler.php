@@ -18,7 +18,7 @@ final class DeletePostCommandHandler implements CommandHandler
         $this->postRepository = $postRepository;
     }
 
-    public function handle(Command $command = null)
+    public function handle(DeletePostCommand $command = null)
     {
         $post = $this->postRepository->ofId($command->postId());
         $this->postRepository->remove($post);
