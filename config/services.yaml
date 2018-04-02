@@ -53,9 +53,7 @@ services:
 
     App\Kernel\Application\Query\QueryBus: '@query_bus'
 
-    domain_event_dispatcher:
-        class: App\Kernel\Infrastructure\Domain\Event\SymfonyDomainEventDispatcher
+    app.middleware.event:
+        class: App\Kernel\Infrastructure\Domain\Event\DomainEventsMiddleware
         arguments:
           - "@event_dispatcher"
-
-    App\Kernel\Domain\Event\DomainEventDispatcher: '@domain_event_dispatcher'

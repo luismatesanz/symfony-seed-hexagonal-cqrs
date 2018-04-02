@@ -5,6 +5,7 @@ tactician:
             middleware:
                 - tactician.middleware.locking
                 - tactician.middleware.doctrine
+                - app.middleware.event
                 - tactician.commandbus.command.middleware.command_handler
         query:
             middleware:

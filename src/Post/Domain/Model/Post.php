@@ -4,14 +4,12 @@ declare(strict_types = 1);
 
 namespace App\Post\Domain\Model;
 
-use App\Kernel\Domain\Event\TriggerEventsTrait;
+use App\Kernel\Domain\Event\DomainEventPublisher;
 use App\User\Domain\Model\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Post
 {
-    use TriggerEventsTrait;
-
     private $postId;
     private $dateCreation;
     private $date;
@@ -30,7 +28,7 @@ class Post
         $this->text = $text;
         $this->comments = new ArrayCollection();
 
-        $this->trigger(new PostWasMade(
+        DomainEventPublisher::instance()->publish(new PostWasMade(
             $this->id(),
             $this->title()
         ));
