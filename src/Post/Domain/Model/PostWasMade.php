@@ -7,6 +7,8 @@ use App\Kernel\Domain\Event\DomainEvent;
 
 class PostWasMade implements DomainEvent
 {
+    const NAME = 'post.post_was_made';
+
     private $postId;
     private $title;
     private $occurredOn;
@@ -16,11 +18,6 @@ class PostWasMade implements DomainEvent
         $this->postId = $postId;
         $this->title = $title;
         $this->occurredOn = new \DateTime();
-    }
-
-    public static function nameEvent()
-    {
-        return "post.post_was_made";
     }
 
     public function postId(): PostId

@@ -7,8 +7,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class SendEmailDomainEventSubscriber implements EventSubscriberInterface
 {
+    const ASYNCHRONOUS = false;
+
     private $mailer;
-    //public $asynchronous = true;
 
     public function __construct(\Swift_Mailer $mailer)
     {
@@ -18,7 +19,7 @@ class SendEmailDomainEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            PostWasMade::nameEvent() => array('sendEmail')
+            PostWasMade::NAME => array('sendEmail')
         );
     }
 
