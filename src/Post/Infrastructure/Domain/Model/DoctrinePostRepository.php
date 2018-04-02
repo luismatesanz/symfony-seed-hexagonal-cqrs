@@ -69,12 +69,6 @@ final class DoctrinePostRepository extends EntityRepository implements PostRepos
         $this->getEntityManager()->flush();
     }
 
-    public function update(Post $post) : void
-    {
-        $this->getEntityManager()->persist($post);
-        $this->getEntityManager()->flush();
-    }
-
     public function remove(Post $post) : void
     {
         $this->getEntityManager()->remove($post);

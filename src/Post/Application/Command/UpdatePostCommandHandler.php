@@ -39,8 +39,6 @@ final class UpdatePostCommandHandler implements CommandHandler
         // MODIFY AGGREGATE COMMENTS
         $this->changeComments($post, $command);
 
-        $this->postRepository->update($post);
-
         return new ViewPostResponse($post);
     }
 

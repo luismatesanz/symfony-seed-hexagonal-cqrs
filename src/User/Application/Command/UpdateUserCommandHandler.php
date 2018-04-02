@@ -31,8 +31,6 @@ final class UpdateUserCommandHandler implements CommandHandler
         $user->changeEmail($command->email());
         $user->changeEnabled($command->enabled());
 
-        $this->userRepository->update($user);
-
         return new ViewUserResponse($user);
     }
 }

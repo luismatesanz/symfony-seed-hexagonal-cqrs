@@ -36,11 +36,6 @@ class InMemoryPostRepository implements PostRepository
         $this->posts[$post->id()->id()] = $post;
     }
 
-    public function update(Post $post) : void
-    {
-        $this->posts[$post->id()->id()] = $post;
-    }
-
     public function remove(Post $post) : void
     {
         unset($this->posts[$post->id()->id()]);

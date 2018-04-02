@@ -15,7 +15,5 @@ interface UserRepository
 
     public function add(User $post) : void;
 
-    public function update(User $post) : void;
-
     public function remove(User $post) : void;
 }

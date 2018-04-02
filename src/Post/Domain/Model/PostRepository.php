@@ -14,7 +14,5 @@ interface PostRepository
 
     public function add(Post $post) : void;
 
-    public function update(Post $post) : void;
-
     public function remove(Post $post) : void;
 }
