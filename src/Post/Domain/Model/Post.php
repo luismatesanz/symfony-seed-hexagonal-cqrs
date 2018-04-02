@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Post\Domain\Model;
 
+use App\Kernel\Domain\Event\DomainEventPublisher;
 use App\User\Domain\Model\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -26,6 +27,11 @@ class Post
         $this->title = $title;
         $this->text = $text;
         $this->comments = new ArrayCollection();
+
+        DomainEventPublisher::instance()->publish(new PostWasMade(
+            $this->id(),
+            $this->title()
+        ));
     }
 
     public function id()

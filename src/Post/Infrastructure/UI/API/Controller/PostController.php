@@ -118,7 +118,12 @@ final class PostController extends FOSRestController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $addPostCommand = $form->getData();
-            $postId = $this->commandBus->execute($addPostCommand);
+            try {
+                $postId = $this->commandBus->execute($addPostCommand);
+            } catch (\Exception $e ){
+                $view = $this->view(array('error'), Response::HTTP_BAD_REQUEST);
+                return $this->handleView($view);
+            }
         } else {
             $errors = [];
             foreach ($form->getErrors(true) as $key => $error) {

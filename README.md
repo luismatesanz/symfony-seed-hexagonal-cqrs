@@ -42,7 +42,5 @@ Use the application layer in the controllers of the two communication buses. <br
 
 TODO
 ------------
-Implement asynchronously TacticianCommandBus. <br />
-Implement event bus. <br />
 Pending test aggregate Post.  <br />
 Pending test entity User.  <br />

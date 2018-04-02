@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace App\Post\Application\Command;
 
-use App\Kernel\Application\Command\Command;
 use App\Kernel\Application\Command\CommandHandler;
 use App\Post\Application\Query\ViewPostResponse;
 use App\Post\Domain\Model\Post;
@@ -23,6 +22,8 @@ final class AddPostCommandHandler implements CommandHandler
     {
         $post = new Post($this->postRepository->nextIdentity(), $command->date(), $command->title(), $command->text());
         $this->postRepository->add($post);
+
+
         return new ViewPostResponse($post);
     }
 }

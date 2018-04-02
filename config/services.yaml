@@ -26,6 +26,13 @@ services:
         tags:
           - { name: tactician.handler, typehints: true, bus: command }
 
+    events:
+        namespace: App\
+        resource: '../src/*/Domain/Event/'
+        exclude: '../src/Kernel/Domain/Event/'
+        tags:
+          - { name: kernel.event_subscriber }
+
     controllers:
         namespace: App\
         resource: '../src/*/Infrastructure/UI/*/Controller/'
@@ -45,3 +52,8 @@ services:
           - "@tactician.commandbus.query"
 
     App\Kernel\Application\Query\QueryBus: '@query_bus'
+
+    app.middleware.event:
+        class: App\Kernel\Infrastructure\Domain\Event\DomainEventsMiddleware
+        arguments:
+          - "@event_dispatcher"
