@@ -30,7 +30,11 @@ class DomainEventsMiddleware implements Middleware
         foreach ($events as $event) {
             $listeners = $this->eventDispatcher->getListeners($event::nameEvent());
             foreach ($listeners as $listener) {
-                call_user_func($listener, $event);
+                if (property_exists($listener[0],'asynchronous') && $listener[0]->asynchronous) {
+                    // TODO: CREATE ASYNCHRONOUS DOMAIN EVENTS SEND AND CONSUMER SYMFONY EVENT DISPATCHER
+                } else {
+                    call_user_func($listener, $event);
+                }
             }
         }
 

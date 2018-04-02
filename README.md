@@ -42,5 +42,6 @@ Use the application layer in the controllers of the two communication buses. <br
 
 TODO
 ------------
+Implement Event Domain asynchronous. <br />
 Pending test aggregate Post.  <br />
 Pending test entity User.  <br />

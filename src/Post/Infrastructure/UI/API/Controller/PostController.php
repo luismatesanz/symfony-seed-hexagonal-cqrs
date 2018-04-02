@@ -121,7 +121,7 @@ final class PostController extends FOSRestController
             try {
                 $postId = $this->commandBus->execute($addPostCommand);
             } catch (\Exception $e ){
-                $view = $this->view(array('error'), Response::HTTP_BAD_REQUEST);
+                $view = $this->view(array($e->getMessage()), Response::HTTP_BAD_REQUEST);
                 return $this->handleView($view);
             }
         } else {

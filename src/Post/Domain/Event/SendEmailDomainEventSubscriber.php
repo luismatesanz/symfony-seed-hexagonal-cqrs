@@ -8,6 +8,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class SendEmailDomainEventSubscriber implements EventSubscriberInterface
 {
     private $mailer;
+    //public $asynchronous = true;
 
     public function __construct(\Swift_Mailer $mailer)
     {
