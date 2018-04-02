@@ -1,11 +1,12 @@
 tactician:
-    default_bus: command
+    default_bus: query
     commandbus:
+        query:
+            middleware:
+                - tactician.middleware.doctrine.default
+                - tactician.commandbus.query.middleware.command_handler
         command:
             middleware:
                 - tactician.middleware.locking
-                - tactician.middleware.doctrine
+                - tactician.middleware.doctrine.write
                 - tactician.commandbus.command.middleware.command_handler
-        query:
-            middleware:
-                - tactician.commandbus.query.middleware.command_handler
