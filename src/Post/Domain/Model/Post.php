@@ -4,11 +4,14 @@ declare(strict_types = 1);
 
 namespace App\Post\Domain\Model;
 
+use App\Kernel\Domain\Event\TriggerEventsTrait;
 use App\User\Domain\Model\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Post
 {
+    use TriggerEventsTrait;
+
     private $postId;
     private $dateCreation;
     private $date;
@@ -26,6 +29,11 @@ class Post
         $this->title = $title;
         $this->text = $text;
         $this->comments = new ArrayCollection();
+
+        $this->trigger(new PostWasMade(
+            $this->id(),
+            $this->title()
+        ));
     }
 
     public function id()
