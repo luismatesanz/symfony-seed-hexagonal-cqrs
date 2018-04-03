@@ -29,6 +29,14 @@ Execute in command line in path folder project:
 
     phpunit
 
+DOMAIN EVENTS
+------------
+To publish domain events you have to execute the DomainEventPublisher object statically. DomainEventPublisher::instance()->publish(DomainEvent). <br />
+All domain events subscribers must implement the interface DomainEventSubscriber. <br />
+All domain events subscribers have to be registered as a listener. <br />
+All domain events are stored in CollectionInMemoryDomainEventSubscriber and then fire if the command execution is successful. <br />
+You can implement the saving of domain events in the middleware (App\Kernel\Infrastructure\Domain\Event\DomainEventsMiddleware). <br />
+
 HEXAGONAL
 ------------
 Implements all adapters with interfaces in the infrastructure layer. <br />

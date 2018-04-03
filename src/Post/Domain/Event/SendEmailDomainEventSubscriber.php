@@ -2,10 +2,10 @@
 
 namespace App\Post\Domain\Event;
 
-use App\Post\Domain\Model\PostWasMade;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use App\Kernel\Domain\Event\DomainEvent;
+use App\Kernel\Domain\Event\DomainEventSubscriber;
 
-class SendEmailDomainEventSubscriber implements EventSubscriberInterface
+class SendEmailDomainEventSubscriber implements DomainEventSubscriber
 {
     const ASYNCHRONOUS = false;
 
@@ -16,14 +16,7 @@ class SendEmailDomainEventSubscriber implements EventSubscriberInterface
         $this->mailer = $mailer;
     }
 
-    public static function getSubscribedEvents()
-    {
-        return array(
-            PostWasMade::NAME => array('sendEmail')
-        );
-    }
-
-    public function sendEmail(PostWasMade $postWasMade)
+    public function handle(DomainEvent $postWasMade)
     {
         $message = (new \Swift_Message('Post Created'))
             ->setFrom(getenv("EMAIL_ADMIN"))

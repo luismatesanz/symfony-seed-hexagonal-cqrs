@@ -1,0 +1,4 @@
+services:
+  App\Post\Domain\Event\SendEmailDomainEventSubscriber:
+      autowire: true
+      tags: [{ name: kernel.event_listener, event: post.post_was_made, method: handle }]

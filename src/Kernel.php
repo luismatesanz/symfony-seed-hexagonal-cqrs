@@ -48,6 +48,9 @@ class Kernel extends BaseKernel
         $loader->load($confDir.'/services'.self::CONFIG_EXTS, 'glob');
         $loader->load($confDir.'/services_'.$this->environment.self::CONFIG_EXTS, 'glob');
 
+        // DOMAIN EVENTS
+        $loader->load($this->getProjectDir().'/src/*/Infrastructure/Domain/Event/domain_events'.self::CONFIG_EXTS, 'glob');
+
         // REPOSITORIES
         $loader->load($this->getProjectDir().'/src/*/Infrastructure/Domain/Model/repositories'.self::CONFIG_EXTS, 'glob');
 
