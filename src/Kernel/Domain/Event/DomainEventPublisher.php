@@ -28,7 +28,7 @@ class DomainEventPublisher
         throw new \BadMethodCallException('Clone is not supported');
     }
 
-    public function subscribe($aDomainEventSubscriber)
+    public function subscribe(DomainEventSubscriber $aDomainEventSubscriber)
     {
         $id = $this->id;
         $this->subscribers[$id] = $aDomainEventSubscriber;

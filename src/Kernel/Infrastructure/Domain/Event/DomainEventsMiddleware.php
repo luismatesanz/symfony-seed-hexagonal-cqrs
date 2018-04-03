@@ -4,6 +4,7 @@
 namespace App\Kernel\Infrastructure\Domain\Event;
 
 use App\Kernel\Domain\Event\DomainEventPublisher;
+use App\Kernel\Domain\Event\DomainEventSubscriber;
 use League\Tactician\Middleware;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -29,10 +30,12 @@ class DomainEventsMiddleware implements Middleware
         foreach ($events as $event) {
             $listeners = $this->eventDispatcher->getListeners($event::NAME);
             foreach ($listeners as $listener) {
-                if (is_object($listener[0]) && defined(get_class($listener[0]).'::ASYNCHRONOUS') && $listener[0]::ASYNCHRONOUS) {
-                    // TODO: CREATE ASYNCHRONOUS DOMAIN EVENTS SEND AND CONSUMER SYMFONY EVENT DISPATCHER
-                } else {
-                    call_user_func($listener, $event);
+                if (is_object($listener[0]) && $listener[0] instanceof DomainEventSubscriber) {
+                    if (defined(get_class($listener[0]) . '::ASYNCHRONOUS') && $listener[0]::ASYNCHRONOUS) {
+                        // TODO: CREATE ASYNCHRONOUS DOMAIN EVENTS SEND AND CONSUMER SYMFONY EVENT DISPATCHER
+                    } else {
+                        call_user_func($listener, $event);
+                    }
                 }
             }
         }
