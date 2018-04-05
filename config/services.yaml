@@ -32,21 +32,21 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    command_bus:
+    App\Kernel\Application\Command\CommandBus:
         class: App\Kernel\Infrastructure\Application\TacticianCommandBus
         arguments:
           - "@tactician.commandbus.command"
 
-    App\Kernel\Application\Command\CommandBus: '@command_bus'
-
-    query_bus:
+    App\Kernel\Application\Query\QueryBus:
         class: App\Kernel\Infrastructure\Application\TacticianQueryBus
         arguments:
           - "@tactician.commandbus.query"
-
-    App\Kernel\Application\Query\QueryBus: '@query_bus'
 
     app.middleware.event:
         class: App\Kernel\Infrastructure\Domain\Event\DomainEventsMiddleware
         arguments:
           - "@event_dispatcher"
+
+    App\Kernel\Domain\Model\Mailer:
+        class: App\Kernel\Infrastructure\Domain\Model\SwiftMailer
+        autowire: true
