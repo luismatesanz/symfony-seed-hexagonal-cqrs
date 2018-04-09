@@ -20,7 +20,7 @@ final class PostComment
         $this->post = $post;
         $this->user = $user;
         $this->dateCreation = new \DateTime();
-        $this->text = $text;
+        $this->setText($text);
     }
 
     public function postCommentId(): PostCommentId
@@ -48,8 +48,13 @@ final class PostComment
         return $this->text;
     }
 
-    public function changeText(string $text): void
+    private function setText(string $text): void
     {
         $this->text = $text;
+    }
+
+    public function changeText(string $text): void
+    {
+        $this->setText($text);
     }
 }

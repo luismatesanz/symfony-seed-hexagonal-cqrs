@@ -29,7 +29,7 @@ final class AddPostCommand implements Command
         return $this->title;
     }
 
-    public function text(): ?string
+    public function text(): string
     {
         return $this->text;
     }

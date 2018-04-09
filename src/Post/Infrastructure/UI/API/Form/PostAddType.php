@@ -41,7 +41,7 @@ final class PostAddType extends AbstractType
                     )
                 )
             )
-            ->add('text', TextType::class)
+            ->add('text', TextType::class, array('empty_data'  => ''))
         ;
     }
 

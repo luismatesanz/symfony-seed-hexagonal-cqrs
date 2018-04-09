@@ -7,7 +7,6 @@ namespace App\Post\Application\Command;
 use App\Kernel\Application\Command\Command;
 use App\Kernel\Application\Command\CommandHandler;
 use App\Post\Application\Command\Aggregate\PostCommentCommand;
-use App\Post\Domain\Model\Post;
 use App\Post\Domain\Model\PostCommentId;
 use App\Post\Domain\Model\PostDoesNotExistException;
 use App\Post\Domain\Model\PostRepository;

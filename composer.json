@@ -4,6 +4,7 @@
     "require": {
         "php": "^7.2",
         "ext-iconv": "*",
+        "beberlei/assert": "^2.9",
         "friendsofsymfony/rest-bundle": "^2.3@dev",
         "jms/serializer-bundle": "^2.3",
         "league/tactician-bundle": "^1.1",

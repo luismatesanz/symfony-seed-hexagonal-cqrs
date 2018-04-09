@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace App\User\Domain\Model;
 
+use Assert\Assertion;
+
 class User
 {
     private $userId;
@@ -17,10 +19,10 @@ class User
     {
         $this->userId = $userId;
         $this->dateCreation = new \DateTime();
-        $this->username = $username;
-        $this->email = $email;
-        $this->enabled = true;
-        $this->password = password_hash($password, PASSWORD_BCRYPT);
+        $this->setUsername($username);
+        $this->setEmail($email);
+        $this->setEnabled(true);
+        $this->setPassword($password);
     }
 
     public function id(): UserId
@@ -38,10 +40,15 @@ class User
         return $this->username;
     }
 
-    public function changeUsername(string $username): User
+    private function setUsername(string $username): void
     {
+        Assertion::notEmpty($username);
         $this->username = $username;
-        return $this;
+    }
+
+    public function changeUsername(string $username): void
+    {
+        $this->setUsername($username);
     }
 
     public function email(): string
@@ -49,10 +56,14 @@ class User
         return $this->email;
     }
 
-    public function changeEmail(string $email): User
+    private function setEmail(string $email): void
     {
         $this->email = $email;
-        return $this;
+    }
+
+    public function changeEmail(string $email): void
+    {
+        $this->setEmail($email);
     }
 
     public function enabled(): bool
@@ -60,14 +71,23 @@ class User
         return $this->enabled;
     }
 
-    public function changeEnabled(bool $enabled): User
+    private function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
-        return $this;
     }
 
-    public function password()
+    public function changeEnabled(bool $enabled): void
+    {
+        $this->setEnabled($enabled);
+    }
+
+    public function password() : string
     {
         return $this->password;
+    }
+
+    private function setPassword(string $password): void
+    {
+        $this->password = password_hash($password, PASSWORD_BCRYPT);
     }
 }

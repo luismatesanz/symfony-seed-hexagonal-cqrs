@@ -6,6 +6,7 @@ namespace App\Post\Domain\Model;
 
 use App\Kernel\Domain\Event\DomainEventPublisher;
 use App\User\Domain\Model\User;
+use Assert\Assertion;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Post
@@ -18,14 +19,14 @@ class Post
     private $status;
     private $comments;
 
-    public function __construct(PostId $postId, \DateTime $date, string $title, ?string $text)
+    public function __construct(PostId $postId, \DateTime $date, string $title, string $text)
     {
         $this->postId = $postId;
         $this->dateCreation = new \DateTime();
-        $this->date = $date;
+        $this->setDate($date);
         $this->status = "open";
-        $this->title = $title;
-        $this->text = $text;
+        $this->setTitle($title);
+        $this->setText($text);
         $this->comments = new ArrayCollection();
 
         DomainEventPublisher::instance()->publish(new PostWasMade(
@@ -49,10 +50,14 @@ class Post
         return $this->date;
     }
 
-    public function changeDate(\DateTime $date) : Post
+    private function setDate(\DateTime $date) : void
     {
         $this->date = $date;
-        return $this;
+    }
+
+    public function changeDate(\DateTime $date) : void
+    {
+        $this->setDate($date);
     }
 
     public function title(): string
@@ -60,10 +65,15 @@ class Post
         return $this->title;
     }
 
-    public function changeTitle(string $title) : Post
+    private function setTitle(string $title) : void
     {
+        Assertion::notEmpty($title);
         $this->title = $title;
-        return $this;
+    }
+
+    public function changeTitle(string $title) : void
+    {
+        $this->setTitle($title);
     }
 
     public function text(): ?string
@@ -71,10 +81,14 @@ class Post
         return $this->text;
     }
 
-    public function changeText(string $text): Post
+    private function setText(string $text): void
     {
         $this->text = $text;
-        return $this;
+    }
+
+    public function changeText(string $text): void
+    {
+        $this->setText($text);
     }
 
     public function status(): string

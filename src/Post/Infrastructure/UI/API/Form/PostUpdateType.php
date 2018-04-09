@@ -44,7 +44,7 @@ final class PostUpdateType extends AbstractType
                     )
                 )
             )
-            ->add('text', TextType::class)
+            ->add('text', TextType::class, array('empty_data'  => ''))
             ->add(
                 'comments',
                 CollectionType::class,
