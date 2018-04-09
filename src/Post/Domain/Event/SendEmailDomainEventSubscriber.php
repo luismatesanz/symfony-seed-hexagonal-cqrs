@@ -9,6 +9,8 @@ use App\Post\Domain\Model\PostWasMade;
 
 class SendEmailDomainEventSubscriber implements DomainEventSubscriber
 {
+    const ASYNCHRONOUS = true;
+
     private $mailer;
 
     public function __construct(Mailer $mailer)
