@@ -44,8 +44,12 @@ services:
 
     app.middleware.event:
         class: App\Kernel\Infrastructure\Domain\Event\DomainEventsMiddleware
-        arguments:
-          - "@event_dispatcher"
+        autowire: true
+
+    App\Kernel\Application\EventStore:
+        class: App\Kernel\Infrastructure\Domain\Event\DoctrineEventStore
+        autowire: true
+
 
     App\Kernel\Domain\Model\Mailer:
         class: App\Kernel\Infrastructure\Domain\Model\SwiftMailer
